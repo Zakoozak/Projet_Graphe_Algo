@@ -1,6 +1,9 @@
 import Arrete.Arrete;
 import Sommet.Sommet;
 
+import java.io.FileWriter;
+import java.io.IOException;
+import java.util.Arrays;
 import java.util.Vector;
 
 public class Graphe {
@@ -55,18 +58,22 @@ public class Graphe {
     //TODO
     void fsApsToMatAdj() {
     }
+
     //TODO
     public void suppSommet(int indice) {
 
     }
+
     //TODO
     public void addSommet(Sommet sommet) {
 
     }
+
     //TODO
     public void suppArrete(int indice) {
 
     }
+
     //TODO
     public void addArrete(Arrete arrete) {
 
@@ -127,6 +134,30 @@ public class Graphe {
 
     public void setMatAdj(int[][] matAdj) {
         this.matAdj = matAdj;
+    }
+
+    @Override
+    public String toString() {
+        return
+                " sommets" + sommets +
+                "\n, arretes=" + arretes +
+                "\n, fs=" + fs +
+                "\n, aps=" + aps +
+                "\n, matAdj=" + Arrays.toString(matAdj) +
+                "\n, estOriente=" + estOriente +
+                '}';
+    }
+
+    public void enregistrer(String nomFichier) {
+        try {
+            FileWriter writer = new FileWriter(nomFichier+".txt");
+            writer.write(this.toString());
+            writer.close();
+            System.out.println("Le graphe a été enregistré dans le fichier " + nomFichier);
+        } catch (IOException e) {
+            System.err.println("Erreur lors de l'enregistrement dans le fichier " + nomFichier);
+            e.printStackTrace();
+        }
     }
 
     //TODO
