@@ -39,8 +39,6 @@ public class Arrete {
 
     @Override
     public String toString() {
-        return "debut = " + debut +
-                ", fin = " + fin +
-                ", poids = " + poids;
+        return "(" + debut + " - " + fin + ", " + poids + ")";
     }
 }
