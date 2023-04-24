@@ -1,5 +1,6 @@
 import java.io.FileWriter;
 import java.io.IOException;
+import java.util.Collections;
 import java.util.Vector;
 
 public class Graphe {
@@ -16,20 +17,23 @@ public class Graphe {
         this.matAdj = matAdj;
         this.estOriente = estOriente;
         // Intégrité des données, on génère fs et aps mais également les listes des sommets et des arêtes du graphe
-        MatAdjToFsAps();
-        MatAdjToLists();
+        matAdjToFsAps();
+        matAdjToLists();
     }
 
     // Via Listes
-    public Graphe(boolean estOriente, Vector<Sommet> sommets, Vector<Arete> arretes) {
+    public Graphe(boolean estOriente, Vector<Sommet> sommets, Vector<Arete> aretes) {
         int nbSommets = sommets.size();
-        int nbAretes = arretes.size();
+        int nbAretes = aretes.size();
         this.fs = new Vector<Integer>(nbAretes);
         this.aps = new Vector<Integer>(nbSommets + 1);
         this.matAdj = null;
         this.sommets = sommets;
-        this.aretes = arretes;
+        this.aretes = aretes;
         this.estOriente = estOriente;
+        // Intégrité des données
+        listsToMatAdj();
+        matAdjToFsAps();
     }
 
     // Via Fs et Aps
@@ -40,6 +44,9 @@ public class Graphe {
         this.sommets = null;
         this.aretes = null;
         this.estOriente = estOriente;
+        // Intégrité des données
+        fsApsToMatAdj();
+        matAdjToLists();
     }
 
     public void setSommets(int indice, Sommet sommet) {
@@ -54,20 +61,76 @@ public class Graphe {
         this.estOriente = estOriente;
     }
 
-    //TODO
+    // Fonction d'intégrité des données
     void fsApsToMatAdj() {
-        int n = aps.get(0);
+        int n = aps.elementAt(0);
+        // Initialisation de la matrice
+        matAdj = new Vector<>();
+        for (int i = 0; i < n+1; i++) {
+            Vector<Integer> innerVector = new Vector<>(Collections.nCopies(n+1, 0));
+            matAdj.add(innerVector);
+        }
+        // Remplissage
+        int i = 1;
+        for (int k = 1; k < fs.elementAt(0); k++) {
+            if (fs.elementAt(k) != 0) {
+                matAdj.elementAt(i).setElementAt(1, fs.elementAt(k));
+            } else {
+                i++;
+            }
+        }
+        // n et m
+        matAdj.elementAt(0).setElementAt(aps.elementAt(0), 0); // n = nombre de sommets
+
+        // Compter le nombre de 1 dans la matrice → somme du tableau ddi
+        Vector<Integer> ddi = detDdiFsAps();
+        int sommeDdi = ddi.stream().mapToInt(Integer::intValue).sum(); // Calcul de la somme
+        sommeDdi = sommeDdi - ddi.elementAt(0); // On enlève la valeur du premier élément de ddi puisqu'il s'agit de la taille de DDI (rien à voir avec le nombre d'arêtes)
+        matAdj.elementAt(0).setElementAt(sommeDdi, 1); // m
+    }
+
+    Vector<Integer> detDdiFsAps() {
+        int n = aps.elementAt(0);
+        Vector<Integer> ddi = new Vector<>(Collections.nCopies(n+1, 0));
+        for (int i = 1; i < fs.elementAt(0); i++) {
+            ddi.setElementAt(ddi.elementAt(fs.elementAt(i)) + 1, fs.elementAt(i));
+        }
+        return ddi;
+    }
+
+    void matAdjToFsAps() {
+        int n = matAdj.elementAt(0).elementAt(0); // Nombre de sommet
+        int m = matAdj.elementAt(0).elementAt(1); // Nombre d'arc
+
+        fs = new Vector<>(Collections.nCopies(n + m + 1, 0));
+        fs.setElementAt(n + m, 0);
+
+        aps = new Vector<>(Collections.nCopies(n + 1, 0));
+        aps.setElementAt(n, 0);
+
+        int k = 1;
+        for (int i = 1; i <= n; i++) {
+            aps.setElementAt(k, i);
+            for (int j = 1; j <= n; j++) {
+                if (matAdj.elementAt(i).elementAt(j) != 0) {
+                    fs.setElementAt(j, k);
+                    k++;
+                }
+            }
+            fs.setElementAt(0, k);
+            k++;
+        }
+    }
+
+    void matAdjToLists() {
 
     }
 
-    void MatAdjToFsAps() {
+    void listsToMatAdj() {
 
     }
 
-    void MatAdjToLists() {
-
-    }
-
+    // AUTRES FONCTIONS
     //TODO
     public void suppSommet(int indice) {
 
@@ -148,7 +211,7 @@ public class Graphe {
     @Override
     public String toString() {
         return
-                "sommets" + sommets +
+                "sommets=" + sommets +
                 "\narretes=" + aretes +
                 "\nfs=" + fs +
                 "\naps=" + aps +
