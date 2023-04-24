@@ -4,6 +4,7 @@ import java.awt.event.ActionListener;
 import java.io.BufferedReader;
 import java.io.FileReader;
 import java.io.IOException;
+import java.util.Arrays;
 import java.util.StringTokenizer;
 import java.util.Vector;
 
@@ -108,7 +109,40 @@ public class MenuPrincipal extends JFrame {
         viaMatriceDAdjacenceButton.addActionListener(new ActionListener() {
             @Override
             public void actionPerformed(ActionEvent e) {
+                MatAdj dialog = new MatAdj(MenuPrincipal.this);
+                dialog.pack();
+                dialog.setVisible(true);
 
+                if (dialog.isOkPressed()) {
+                    String sMat = dialog.getMat();
+                    // System.out.println(mat);
+                    String[] rows = sMat.split("\n");
+                    // System.out.println(Arrays.toString(rows));
+
+                    Vector<Vector<Integer>> mat = new Vector<>();
+                    boolean estOriente = dialog.getOriente();
+                    // parcourir chaque ligne de la chaîne
+                    for (String row : rows) {
+                            String[] elements = row.split(" ");
+                            Vector<Integer> vectorRow = new Vector<>();
+
+                            for (String element : elements) {
+                                vectorRow.add(Integer.parseInt(element));
+                            }
+                            mat.add(vectorRow);
+                    }
+
+                    String name = dialog.getName();
+                    Graphe nouveauGrapheCourant = new Graphe(mat, estOriente);
+                    setGrapheCourant(nouveauGrapheCourant);
+
+                    String sName = nouveauGrapheCourant.enregistrer(name); // Enregistrement du graphe dans le dossier "Graphes" à la racine du projet
+                    labelNomGrapheCourant.setText(sName);
+
+                    System.out.println(grapheCourant);
+                    dialog.setOkPressed(false);
+
+                }
             }
         });
 
