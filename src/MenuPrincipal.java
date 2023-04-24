@@ -18,16 +18,19 @@ public class MenuPrincipal extends JFrame {
     private JLabel labelNomGrapheCourant;
 
     public MenuPrincipal() {
+        // Options de base de la fenêtre
         setContentPane(panneauMenuPrincipal);
         setTitle("Menu Principal");
         setSize(800, 450);
         setDefaultCloseOperation(WindowConstants.EXIT_ON_CLOSE);
         setVisible(true);
 
+        // Affichage d'un msg si pas de graphe courant dans l'application
         if (grapheCourant == null) {
             labelNomGrapheCourant.setText("Pas de graphe courant, veuillez en importer ou en créer un !");
         }
 
+        // Action Listener Bouton d'importation
         viaUnFichierButton.addActionListener(new ActionListener() {
             @Override
             public void actionPerformed(ActionEvent e) {
@@ -71,6 +74,65 @@ public class MenuPrincipal extends JFrame {
                 }
             }
         });
+
+        // Action Listener Bouton de création via Fs et Aps
+        viaFsEtApsButton.addActionListener(new ActionListener() {
+            @Override
+            public void actionPerformed(ActionEvent e) {
+                FsAps dialog = new FsAps(MenuPrincipal.this);
+                dialog.pack();
+                dialog.setVisible(true);
+
+                if (dialog.isOkPressed()) {
+                    boolean estOriente = dialog.getOriente();
+                    String sFs = dialog.getFs();
+                    String sAps = dialog.getAps();
+                    String name = dialog.getName();
+
+                    Vector<Integer> fs = stringToVector(sFs);
+                    Vector<Integer> aps = stringToVector(sAps);
+
+                    Graphe nouveauGrapheCourant = new Graphe(fs, aps, estOriente);
+                    setGrapheCourant(nouveauGrapheCourant);
+
+                    String sName = nouveauGrapheCourant.enregistrer(name); // Enregistrement du graphe dans le dossier "Graphes" à la racine du projet
+                    labelNomGrapheCourant.setText(sName);
+
+                    System.out.println(grapheCourant);
+                    dialog.setOkPressed(false);
+                }
+            }
+        });
+
+        // Action Listener Bouton de création via Matrice d'adjacence
+        viaMatriceDAdjacenceButton.addActionListener(new ActionListener() {
+            @Override
+            public void actionPerformed(ActionEvent e) {
+
+            }
+        });
+
+        // Action Listener Bouton de création via Listes
+        viaListesButton.addActionListener(new ActionListener() {
+            @Override
+            public void actionPerformed(ActionEvent e) {
+
+            }
+        });
+    }
+
+    public static Vector<Integer> stringToVector(String input) {
+        Vector<Integer> output = new Vector<Integer>();
+        StringTokenizer tokenizer = new StringTokenizer(input, " ");
+        while (tokenizer.hasMoreTokens()) {
+            String token = tokenizer.nextToken().trim();
+            output.add(Integer.parseInt(token));
+        }
+        return output;
+    }
+
+    public void setGrapheCourant(Graphe grapheCourant) {
+        this.grapheCourant = grapheCourant;
     }
 
     public static void main(String[] args) {

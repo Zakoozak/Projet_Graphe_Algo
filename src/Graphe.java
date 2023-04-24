@@ -1,3 +1,4 @@
+import java.io.File;
 import java.io.FileWriter;
 import java.io.IOException;
 import java.util.Collections;
@@ -262,22 +263,34 @@ public class Graphe {
                 '}';
     }
 
-    public void enregistrer(String nomFichier) {
+    public String enregistrer(String nomFichier) {
+        String absolutePath = "";
         try {
-            FileWriter writer = new FileWriter(nomFichier+".txt");
-            writer.write(this.toString());
+            File file = new File("Graphes/" + nomFichier);
+            absolutePath = file.getAbsolutePath();
+            FileWriter writer = new FileWriter(file);
+
+            if (estOriente)
+                writer.write("1\n");
+            else
+                writer.write("0\n");
+
+            for (int i = 0; i < matAdj.size(); i++) {
+                for (int j = 0; j < matAdj.size(); j++) {
+                    writer.write(matAdj.elementAt(i).elementAt(j) + " ");
+                    if (j == matAdj.size()-1)
+                        writer.write('\n');
+                }
+            }
             writer.close();
             System.out.println("Le graphe a été enregistré dans le fichier " + nomFichier);
+
         } catch (IOException e) {
             System.err.println("Erreur lors de l'enregistrement dans le fichier " + nomFichier);
             e.printStackTrace();
         }
-    }
 
-    //TODO
-    boolean SaveGraphe() {
-        return false;
+        return absolutePath;
     }
-
 
 }
