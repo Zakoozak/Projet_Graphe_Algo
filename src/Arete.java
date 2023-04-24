@@ -1,18 +1,18 @@
-public class Arrete {
-
+public class Arete {
     private Sommet debut;
     private Sommet fin;
     private int poids;
 
-    public Arrete(Sommet debut, Sommet fin, int poids) {
+    public Arete(Sommet debut, Sommet fin, int poids) {
         this.debut = debut;
         this.fin = fin;
         this.poids = poids;
     }
 
-    public Arrete(Sommet debut, Sommet fin) {
+    public Arete(Sommet debut, Sommet fin) {
         this(debut,fin,0);
     }
+
     public Sommet getDebut() {
         return debut;
     }

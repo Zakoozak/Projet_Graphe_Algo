@@ -1,42 +1,44 @@
 import java.io.FileWriter;
 import java.io.IOException;
-import java.util.Arrays;
 import java.util.Vector;
 
 public class Graphe {
-    private final Vector<Sommet> sommets;
-    private final Vector<Arrete> arretes;
+    private Vector<Sommet> sommets;
+    private Vector<Arete> aretes;
     private Vector<Integer> fs;
     private Vector<Integer> aps;
-    private int[][] matAdj;
+    private Vector<Vector<Integer>> matAdj;
     private boolean estOriente;
 
-    public Graphe(Vector<Integer> fs, Vector<Integer> aps, boolean estOriente, Vector<Sommet> sommets, Vector<Arrete> arretes) {
-        this.fs = fs;
-        this.aps = aps;
-        this.matAdj = null; // ??
-        this.sommets = sommets;
-        this.arretes = arretes;
+    // CONSTRUCTEURS
+    // Via Matrice d'adjacence
+    public Graphe(Vector<Vector<Integer>> matAdj, boolean estOriente) {
+        this.matAdj = matAdj;
         this.estOriente = estOriente;
+        // Intégrité des données, on génère fs et aps mais également les listes des sommets et des arêtes du graphe
+        MatAdjToFsAps();
+        MatAdjToLists();
     }
 
-    public Graphe(boolean estOriente, Vector<Sommet> sommets, Vector<Arrete> arretes) {
+    // Via Listes
+    public Graphe(boolean estOriente, Vector<Sommet> sommets, Vector<Arete> arretes) {
         int nbSommets = sommets.size();
-        int nbArretes = arretes.size();
-        this.fs = new Vector<Integer>(nbArretes);
+        int nbAretes = arretes.size();
+        this.fs = new Vector<Integer>(nbAretes);
         this.aps = new Vector<Integer>(nbSommets + 1);
         this.matAdj = null;
         this.sommets = sommets;
-        this.arretes = arretes;
+        this.aretes = arretes;
         this.estOriente = estOriente;
     }
 
+    // Via Fs et Aps
     public Graphe(Vector<Integer> fs, Vector<Integer> aps, boolean estOriente) {
         this.fs = fs;
         this.aps = aps;
-        this.matAdj = null; // Je sais pas si c'est bon
+        this.matAdj = null;
         this.sommets = null;
-        this.arretes = null;
+        this.aretes = null;
         this.estOriente = estOriente;
     }
 
@@ -54,6 +56,16 @@ public class Graphe {
 
     //TODO
     void fsApsToMatAdj() {
+        int n = aps.get(0);
+
+    }
+
+    void MatAdjToFsAps() {
+
+    }
+
+    void MatAdjToLists() {
+
     }
 
     //TODO
@@ -72,7 +84,7 @@ public class Graphe {
     }
 
     //TODO
-    public void addArrete(Arrete arrete) {
+    public void addArrete(Arete arrete) {
 
     }
 
@@ -81,23 +93,23 @@ public class Graphe {
     }
 
     public int getNombreArretes() {
-        return this.arretes.size();
+        return this.aretes.size();
     }
 
     public Vector<Sommet> getSommets() {
         return this.sommets;
     }
 
-    public Vector<Arrete> getArretes() {
-        return this.arretes;
+    public Vector<Arete> getAretes() {
+        return this.aretes;
     }
 
-    public void setArretes(int indice, Arrete arrete) {
-        if (indice < 0 || indice > arretes.size()) {
+    public void setArretes(int indice, Arete arrete) {
+        if (indice < 0 || indice > aretes.size()) {
             System.out.println("arrete de te foutre de ma gueule stp");
             return;
         } else {
-            arretes.set(indice, arrete);
+            aretes.set(indice, arrete);
         }
     }
 
@@ -125,23 +137,23 @@ public class Graphe {
         this.aps = aps;
     }
 
-    public int[][] getMatAdj() {
+    public Vector<Vector<Integer>> getMatAdj() {
         return this.matAdj;
     }
 
-    public void setMatAdj(int[][] matAdj) {
+    public void setMatAdj(Vector<Vector<Integer>> matAdj) {
         this.matAdj = matAdj;
     }
 
     @Override
     public String toString() {
         return
-                " sommets" + sommets +
-                "\n, arretes=" + arretes +
-                "\n, fs=" + fs +
-                "\n, aps=" + aps +
-                "\n, matAdj=" + Arrays.toString(matAdj) +
-                "\n, estOriente=" + estOriente +
+                "sommets" + sommets +
+                "\narretes=" + aretes +
+                "\nfs=" + fs +
+                "\naps=" + aps +
+                "\nmatAdj=" + matAdj.toString() +
+                "\nestOriente=" + estOriente +
                 '}';
     }
 
