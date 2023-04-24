@@ -123,11 +123,53 @@ public class Graphe {
     }
 
     void matAdjToLists() {
+        int n = matAdj.elementAt(0).elementAt(0); // Nombre de sommet
 
+        // Remplissage liste des sommets
+        sommets = new Vector<>();
+        for (int i = 1; i < n + 1; i++) {
+            sommets.add(new Sommet(i));
+        }
+
+        // Remplissage liste des arêtes
+        aretes = new Vector<>();
+        for (int i = 1; i < n + 1; i++) {
+            for (int j = 1; j < n + 1; j++) {
+                if (matAdj.elementAt(i).elementAt(j) == 1) {
+                    Sommet s1 = null;
+                    Sommet s2 = null;
+
+                    for (int k = 0; k < sommets.size(); k++) {
+                        if (sommets.elementAt(k).getIndice() == i)
+                            s1 = sommets.elementAt(k);
+                        if (sommets.elementAt(k).getIndice() == j)
+                            s2 = sommets.elementAt(k);
+                    }
+                    aretes.add(new Arete(s1, s2));
+
+                }
+            }
+        }
     }
 
     void listsToMatAdj() {
+        int nbSommet = sommets.size();
+        int nbAretes = aretes.size();
 
+        matAdj = new Vector<>();
+        for (int i = 0; i < nbSommet+1; i++) {
+            Vector<Integer> innerVector = new Vector<>(Collections.nCopies(nbSommet+1, 0));
+            matAdj.add(innerVector);
+        }
+
+        // Insertion du nombre de sommets et d'arêtes dans la matrice
+        matAdj.elementAt(0).setElementAt(nbSommet, 0); // n = nombre de sommets
+        matAdj.elementAt(0).setElementAt(nbAretes, 1); // n = nombre de sommets
+
+        // Remplissage du reste
+        for (Arete a : aretes) {
+            matAdj.elementAt(a.getDebut().getIndice()).setElementAt(1, a.getFin().getIndice());
+        }
     }
 
     // AUTRES FONCTIONS

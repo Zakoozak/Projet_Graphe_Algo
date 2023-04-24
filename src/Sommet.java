@@ -38,6 +38,11 @@ public class Sommet {
 
     @Override
     public String toString() {
-        return "[" + nom + "," + indice + "," + rang + "]" ;
+        String sNom = "";
+        if (nom.isEmpty()) {
+            sNom = "<No Name>";
+        } else sNom = nom;
+
+        return "[" + sNom + "," + indice + "," + rang + "]" ;
     }
 }

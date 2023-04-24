@@ -14,9 +14,12 @@ public class Main {
         // Tests Mat Adj
         Vector<Vector<Integer>> A;
         A = graphe.getMatAdj();
-
         Graphe graphe1 = new Graphe(A, true);
-        System.out.println(graphe1);
+        System.out.println(graphe1 + "\n##############");
+
+        // Tests Lists
+        Graphe graphe2 = new Graphe(true, graphe1.getSommets(), graphe1.getAretes());
+        System.out.println(graphe2);
 
         /*
         GraphSimulation graphSimulation = new GraphSimulation();
