@@ -293,4 +293,46 @@ public class Graphe {
         return absolutePath;
     }
 
+    public String enregistrerDetails(String nomFichier) {
+        String absolutePath = "";
+        try {
+            File file = new File("Graphes/" + nomFichier);
+            absolutePath = file.getAbsolutePath();
+            FileWriter writer = new FileWriter(file);
+            writer.write("D\n");
+
+            if (estOriente)
+                writer.write("1\n");
+            else
+                writer.write("0\n");
+
+            int i = 0;
+            for (Sommet s : sommets) {
+                writer.write(s.getNom() + " " + s.getIndice());
+                if (i == sommets.size()-1) {
+                    writer.write('\n');
+                } else {
+                    writer.write('|');
+                }
+                i++;
+            }
+
+            int j = 0;
+            for (Arete a : aretes) {
+                writer.write(a.getDebut().getIndice() + " " + a.getFin().getIndice() + " " + a.getPoids());
+                if (!(j == aretes.size()-1)) writer.write('|');
+                j++;
+            }
+
+            writer.close();
+            System.out.println("Le graphe a été enregistré dans le fichier " + nomFichier);
+
+        } catch (IOException e) {
+            System.err.println("Erreur lors de l'enregistrement dans le fichier " + nomFichier);
+            e.printStackTrace();
+        }
+
+        return absolutePath;
+    }
+
 }

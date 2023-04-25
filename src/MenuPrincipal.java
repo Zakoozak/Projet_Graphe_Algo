@@ -47,28 +47,57 @@ public class MenuPrincipal extends JFrame {
                         FileReader reader = new FileReader(file);
                         BufferedReader br = new BufferedReader(reader);
                         // La première ligne nous indique si le graphe est orienté ou non ==> 1 = Oui / 0 = Non
+                        // Elle permet aussi de savoir de quel type d'enregistrement il s'agit.
+                        // Si la première ligne n'est pas égale à 1 ou 0, mais à D, il s'agit d'un enregistrement détaillé. (On ne va donc pas lire le fichier de la même manière)
                         String lineEstOriente = br.readLine();
-                        // Créer un tableau 2D de vecteurs qui va contenir les données de notre matrice d'adjacence
-                        Vector<Vector<Integer>> data = new Vector<>();
-                        String linesMat;
-                        while ((linesMat = br.readLine()) != null) {
-                            // Créer un vecteur pour la ligne courante et y stocker les données
-                            Vector<Integer> lineCourante = new Vector<Integer>();
-                            StringTokenizer st = new StringTokenizer(linesMat, " ");
-                            while (st.hasMoreTokens()) {
-                                lineCourante.add(Integer.valueOf(st.nextToken()));
+                        if (lineEstOriente.equals("1") || lineEstOriente.equals("0")) { // Lecture à partir d'un enregistrement simple (matrice d'adjacence)
+                            // Créer un tableau 2D de vecteurs qui va contenir les données de notre matrice d'adjacence
+                            Vector<Vector<Integer>> data = new Vector<>();
+                            String linesMat;
+                            while ((linesMat = br.readLine()) != null) {
+                                // Créer un vecteur pour la ligne courante et y stocker les données
+                                Vector<Integer> lineCourante = new Vector<Integer>();
+                                StringTokenizer st = new StringTokenizer(linesMat, " ");
+                                while (st.hasMoreTokens()) {
+                                    lineCourante.add(Integer.valueOf(st.nextToken()));
+                                }
+                                // Rajouter les données à la matrice
+                                data.add(lineCourante);
                             }
-                            // Rajouter les données à la matrice
-                            data.add(lineCourante);
+
+                            // Créer l'objet Graphe courant à partir des données du fichier
+                            boolean estOriente;
+                            estOriente = !lineEstOriente.equals("0");
+                            grapheCourant = new Graphe(data, estOriente);
+                            System.out.println(grapheCourant);
+
+                        } else if (lineEstOriente.equals("D")) { // Lecture à partir d'un enregistrement détaillé (listes)
+                            String vraieLineEstOriente = br.readLine();
+                            Vector<Sommet> dataSommets = new Vector<>();
+                            Vector<Arete> dataAretes = new Vector<>();
+
+                            String lineSommets = br.readLine();
+                            String[] sSommets = lineSommets.split("\\|");
+                            for (String s : sSommets) {
+                                String[] data = s.split(" ");
+                                dataSommets.add(new Sommet(data[0], Integer.parseInt(data[1])));
+                            }
+
+                            String lineAretes = br.readLine();
+                            String[] sAretes = lineAretes.split("\\|");
+                            for (String a : sAretes) {
+                                String[] data = a.split(" ");
+                                dataAretes.add(new Arete(dataSommets.get(Integer.parseInt(data[0])-1), dataSommets.get(Integer.parseInt(data[1])-1), Integer.parseInt(data[2])));
+                            }
+
+                            boolean estOriente;
+                            estOriente = !vraieLineEstOriente.equals("0");
+                            grapheCourant = new Graphe(estOriente, dataSommets, dataAretes);
+                            System.out.println(grapheCourant);
                         }
                         br.close();
                         reader.close();
 
-                        // Créer l'objet Graphe courant à partir des données du fichier
-                        boolean estOriente;
-                        estOriente = !lineEstOriente.equals("0");
-                        grapheCourant = new Graphe(data, estOriente);
-                        System.out.println(grapheCourant);
                     } catch (IOException ex) {
                         ex.printStackTrace();
                     }
@@ -150,6 +179,41 @@ public class MenuPrincipal extends JFrame {
         viaListesButton.addActionListener(new ActionListener() {
             @Override
             public void actionPerformed(ActionEvent e) {
+                Listes dialog = new Listes(MenuPrincipal.this);
+                dialog.pack();
+                dialog.setVisible(true);
+
+                if (dialog.isOkPressed()) {
+                    // Récupération et traduction des sommets
+                    String sSommets = dialog.getSommets();
+                    String[] tabSommets = sSommets.split(" ");
+                    Vector<Sommet> sommets = new Vector<>();
+
+                    for (int i = 0; i < tabSommets.length; i++) {
+                        sommets.add(new Sommet(tabSommets[i], i+1));
+                    }
+
+                    // Récupération et traduction des arêtes
+                    String sAretes = dialog.getAretes();
+                    String[] tabAretes = sAretes.split("\n");
+                    Vector<Arete> aretes = new Vector<>();
+
+                    for (int i = 0; i < tabAretes.length; i++) {
+                        String[] arete = tabAretes[i].split("-");
+                        aretes.add(new Arete(sommets.get(Integer.parseInt(arete[0])-1), sommets.get(Integer.parseInt(arete[2])-1), Integer.parseInt(arete[1])));
+                    }
+
+                    String name = dialog.getName();
+                    boolean estOriente = dialog.getOriente();
+                    Graphe nouveauGrapheCourant = new Graphe(estOriente, sommets, aretes);
+                    setGrapheCourant(nouveauGrapheCourant);
+
+                    String sName = nouveauGrapheCourant.enregistrerDetails(name); // Enregistrement du graphe dans le dossier "Graphes" à la racine du projet
+                    labelNomGrapheCourant.setText(sName);
+
+                    dialog.setOkPressed(false);
+                }
+
 
             }
         });

@@ -1,0 +1,235 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<form xmlns="http://www.intellij.com/uidesigner/form/" version="1" bind-to-class="Listes">
+  <grid id="cbd77" binding="contentPane" layout-manager="GridLayoutManager" row-count="2" column-count="3" same-size-horizontally="false" same-size-vertically="false" hgap="-1" vgap="-1">
+    <margin top="10" left="10" bottom="10" right="10"/>
+    <constraints>
+      <xy x="48" y="54" width="861" height="589"/>
+    </constraints>
+    <properties/>
+    <border type="none"/>
+    <children>
+      <grid id="94766" layout-manager="GridLayoutManager" row-count="1" column-count="2" same-size-horizontally="false" same-size-vertically="false" hgap="-1" vgap="-1">
+        <margin top="0" left="0" bottom="0" right="0"/>
+        <constraints>
+          <grid row="1" column="1" row-span="1" col-span="1" vsize-policy="1" hsize-policy="3" anchor="0" fill="3" indent="0" use-parent-layout="false"/>
+        </constraints>
+        <properties/>
+        <border type="none"/>
+        <children>
+          <hspacer id="98af6">
+            <constraints>
+              <grid row="0" column="0" row-span="1" col-span="1" vsize-policy="1" hsize-policy="6" anchor="0" fill="1" indent="0" use-parent-layout="false"/>
+            </constraints>
+          </hspacer>
+          <grid id="9538f" layout-manager="GridLayoutManager" row-count="1" column-count="2" same-size-horizontally="true" same-size-vertically="false" hgap="-1" vgap="-1">
+            <margin top="0" left="0" bottom="0" right="0"/>
+            <constraints>
+              <grid row="0" column="1" row-span="1" col-span="1" vsize-policy="3" hsize-policy="3" anchor="0" fill="3" indent="0" use-parent-layout="false"/>
+            </constraints>
+            <properties/>
+            <border type="none"/>
+            <children>
+              <component id="e7465" class="javax.swing.JButton" binding="buttonOK">
+                <constraints>
+                  <grid row="0" column="0" row-span="1" col-span="1" vsize-policy="0" hsize-policy="3" anchor="0" fill="1" indent="0" use-parent-layout="false"/>
+                </constraints>
+                <properties>
+                  <background color="-14370028"/>
+                  <text value="OK"/>
+                </properties>
+              </component>
+              <component id="5723f" class="javax.swing.JButton" binding="buttonCancel">
+                <constraints>
+                  <grid row="0" column="1" row-span="1" col-span="1" vsize-policy="0" hsize-policy="3" anchor="0" fill="1" indent="0" use-parent-layout="false"/>
+                </constraints>
+                <properties>
+                  <background color="-4510175"/>
+                  <foreground color="-1"/>
+                  <text value="Cancel"/>
+                </properties>
+              </component>
+            </children>
+          </grid>
+        </children>
+      </grid>
+      <grid id="e3588" layout-manager="GridLayoutManager" row-count="19" column-count="4" same-size-horizontally="false" same-size-vertically="false" hgap="-1" vgap="-1">
+        <margin top="0" left="0" bottom="0" right="0"/>
+        <constraints>
+          <grid row="0" column="1" row-span="1" col-span="1" vsize-policy="3" hsize-policy="3" anchor="0" fill="3" indent="0" use-parent-layout="false"/>
+        </constraints>
+        <properties/>
+        <border type="none"/>
+        <children>
+          <component id="58f4b" class="javax.swing.JLabel">
+            <constraints>
+              <grid row="0" column="0" row-span="1" col-span="4" vsize-policy="0" hsize-policy="0" anchor="0" fill="0" indent="0" use-parent-layout="false"/>
+            </constraints>
+            <properties>
+              <font size="22"/>
+              <text value="Créer un Graphe à partir de la liste des sommets et des arêtes"/>
+            </properties>
+          </component>
+          <component id="32585" class="javax.swing.JLabel">
+            <constraints>
+              <grid row="2" column="0" row-span="1" col-span="1" vsize-policy="0" hsize-policy="0" anchor="8" fill="0" indent="0" use-parent-layout="false"/>
+            </constraints>
+            <properties>
+              <font size="14"/>
+              <text value="Note :"/>
+            </properties>
+          </component>
+          <component id="8f31d" class="javax.swing.JLabel">
+            <constraints>
+              <grid row="8" column="0" row-span="1" col-span="2" vsize-policy="0" hsize-policy="0" anchor="8" fill="0" indent="0" use-parent-layout="false"/>
+            </constraints>
+            <properties>
+              <font size="16"/>
+              <text value="Orienté ?"/>
+            </properties>
+          </component>
+          <component id="9a355" class="javax.swing.JLabel">
+            <constraints>
+              <grid row="10" column="0" row-span="1" col-span="3" vsize-policy="0" hsize-policy="0" anchor="8" fill="0" indent="0" use-parent-layout="false"/>
+            </constraints>
+            <properties>
+              <font size="16"/>
+              <text value="Liste des sommets"/>
+            </properties>
+          </component>
+          <component id="eaac4" class="javax.swing.JTextField" binding="textFieldSommets">
+            <constraints>
+              <grid row="11" column="0" row-span="1" col-span="3" vsize-policy="0" hsize-policy="6" anchor="8" fill="1" indent="0" use-parent-layout="false">
+                <preferred-size width="150" height="-1"/>
+              </grid>
+            </constraints>
+            <properties/>
+          </component>
+          <component id="5f5e7" class="javax.swing.JLabel">
+            <constraints>
+              <grid row="13" column="0" row-span="1" col-span="3" vsize-policy="0" hsize-policy="0" anchor="8" fill="0" indent="0" use-parent-layout="false"/>
+            </constraints>
+            <properties>
+              <font size="16"/>
+              <text value="Liste des arêtes"/>
+            </properties>
+          </component>
+          <component id="bffd5" class="javax.swing.JTextArea" binding="textAreaAretes">
+            <constraints>
+              <grid row="14" column="0" row-span="1" col-span="3" vsize-policy="6" hsize-policy="6" anchor="0" fill="3" indent="0" use-parent-layout="false">
+                <preferred-size width="150" height="50"/>
+              </grid>
+            </constraints>
+            <properties/>
+          </component>
+          <component id="c9571" class="javax.swing.JCheckBox" binding="checkBoxOriente">
+            <constraints>
+              <grid row="8" column="2" row-span="1" col-span="1" vsize-policy="0" hsize-policy="3" anchor="8" fill="0" indent="0" use-parent-layout="false"/>
+            </constraints>
+            <properties>
+              <selected value="false"/>
+              <text value=""/>
+            </properties>
+          </component>
+          <component id="28816" class="javax.swing.JLabel">
+            <constraints>
+              <grid row="16" column="0" row-span="1" col-span="2" vsize-policy="0" hsize-policy="0" anchor="8" fill="0" indent="0" use-parent-layout="false"/>
+            </constraints>
+            <properties>
+              <font size="16"/>
+              <text value="Nom du fichier"/>
+            </properties>
+          </component>
+          <component id="6d69f" class="javax.swing.JTextField" binding="textFieldNom">
+            <constraints>
+              <grid row="17" column="0" row-span="1" col-span="3" vsize-policy="0" hsize-policy="6" anchor="8" fill="1" indent="0" use-parent-layout="false">
+                <preferred-size width="150" height="-1"/>
+              </grid>
+            </constraints>
+            <properties/>
+          </component>
+          <vspacer id="1c698">
+            <constraints>
+              <grid row="1" column="0" row-span="1" col-span="1" vsize-policy="6" hsize-policy="1" anchor="0" fill="2" indent="0" use-parent-layout="false"/>
+            </constraints>
+          </vspacer>
+          <vspacer id="9f65d">
+            <constraints>
+              <grid row="7" column="0" row-span="1" col-span="1" vsize-policy="6" hsize-policy="1" anchor="0" fill="2" indent="0" use-parent-layout="false"/>
+            </constraints>
+          </vspacer>
+          <vspacer id="75143">
+            <constraints>
+              <grid row="9" column="0" row-span="1" col-span="1" vsize-policy="6" hsize-policy="1" anchor="0" fill="2" indent="0" use-parent-layout="false"/>
+            </constraints>
+          </vspacer>
+          <vspacer id="d618e">
+            <constraints>
+              <grid row="12" column="0" row-span="1" col-span="1" vsize-policy="6" hsize-policy="1" anchor="0" fill="2" indent="0" use-parent-layout="false"/>
+            </constraints>
+          </vspacer>
+          <vspacer id="b5672">
+            <constraints>
+              <grid row="15" column="0" row-span="1" col-span="1" vsize-policy="6" hsize-policy="1" anchor="0" fill="2" indent="0" use-parent-layout="false"/>
+            </constraints>
+          </vspacer>
+          <vspacer id="2ef06">
+            <constraints>
+              <grid row="18" column="0" row-span="1" col-span="1" vsize-policy="6" hsize-policy="1" anchor="0" fill="2" indent="0" use-parent-layout="false"/>
+            </constraints>
+          </vspacer>
+          <component id="c6f01" class="javax.swing.JLabel">
+            <constraints>
+              <grid row="3" column="0" row-span="1" col-span="3" vsize-policy="0" hsize-policy="0" anchor="8" fill="0" indent="0" use-parent-layout="false"/>
+            </constraints>
+            <properties>
+              <text value="Pour les sommets, simplement mettre les noms de vos sommets séparés par des espaces."/>
+            </properties>
+          </component>
+          <component id="87d17" class="javax.swing.JLabel">
+            <constraints>
+              <grid row="4" column="0" row-span="1" col-span="3" vsize-policy="0" hsize-policy="0" anchor="8" fill="0" indent="0" use-parent-layout="false"/>
+            </constraints>
+            <properties>
+              <text value="Exemple : Paris Marseille Lyon Toulouse Nice Nantes Strasbourg Montpellier Bordeaux "/>
+            </properties>
+          </component>
+          <component id="5a838" class="javax.swing.JLabel">
+            <constraints>
+              <grid row="5" column="0" row-span="1" col-span="3" vsize-policy="0" hsize-policy="0" anchor="8" fill="0" indent="0" use-parent-layout="false"/>
+            </constraints>
+            <properties>
+              <text value="Pour les arêtes, la syntaxe est la suivante &gt; Sommet1-Poids-Sommet2 (Il faut ensuite les séparer avec un retour à la ligne)"/>
+            </properties>
+          </component>
+          <component id="ee3b8" class="javax.swing.JLabel">
+            <constraints>
+              <grid row="6" column="0" row-span="1" col-span="3" vsize-policy="0" hsize-policy="0" anchor="8" fill="0" indent="0" use-parent-layout="false"/>
+            </constraints>
+            <properties>
+              <text value="Exemple pour 1 arête dans l'exemple précédent allant de Paris à Strasbourg : 1-480-7"/>
+            </properties>
+          </component>
+          <component id="72c5a" class="javax.swing.JButton" binding="copierDataButton">
+            <constraints>
+              <grid row="2" column="2" row-span="1" col-span="1" vsize-policy="0" hsize-policy="3" anchor="4" fill="0" indent="0" use-parent-layout="false"/>
+            </constraints>
+            <properties>
+              <background color="-11696215"/>
+              <text value="Copier les données d'exemple"/>
+            </properties>
+          </component>
+        </children>
+      </grid>
+      <hspacer id="4c1c">
+        <constraints>
+          <grid row="0" column="0" row-span="1" col-span="1" vsize-policy="1" hsize-policy="6" anchor="0" fill="1" indent="3" use-parent-layout="false"/>
+        </constraints>
+      </hspacer>
+      <hspacer id="82683">
+        <constraints>
+          <grid row="0" column="2" row-span="1" col-span="1" vsize-policy="1" hsize-policy="6" anchor="0" fill="1" indent="3" use-parent-layout="false"/>
+        </constraints>
+      </hspacer>
+    </children>
+  </grid>
+</form>

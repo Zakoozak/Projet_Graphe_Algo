@@ -106,10 +106,6 @@ public class MatAdj extends JDialog {
         this.okPressed = okPressed;
     }
 
-    public JTextArea getTextAreaMatrice() {
-        return textAreaMatrice;
-    }
-
     public String getName() {
         return textFieldName.getText();
     }
