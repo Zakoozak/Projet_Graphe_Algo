@@ -214,7 +214,19 @@ public class MenuPrincipal extends JFrame {
                     dialog.setOkPressed(false);
                 }
 
+            }
+        });
 
+        voirLesAlgorithmesButton.addActionListener(new ActionListener() {
+            @Override
+            public void actionPerformed(ActionEvent e) {
+                int x = getLocation().x;
+                int y = getLocation().y;
+                int width = getWidth();
+                int height = getHeight();
+
+                MenuSecondaire menuSecondaire = new MenuSecondaire(MenuPrincipal.this, x, y, width, height);
+                dispose();
             }
         });
     }
