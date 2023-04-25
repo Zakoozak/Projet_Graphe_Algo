@@ -225,7 +225,7 @@ public class MenuPrincipal extends JFrame {
                 int width = getWidth();
                 int height = getHeight();
 
-                MenuSecondaire menuSecondaire = new MenuSecondaire(MenuPrincipal.this, x, y, width, height);
+                MenuSecondaire menuSecondaire = new MenuSecondaire(MenuPrincipal.this, x, y, width, height, grapheCourant);
                 dispose();
             }
         });

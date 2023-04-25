@@ -3,6 +3,7 @@ import java.awt.event.ActionEvent;
 import java.awt.event.ActionListener;
 
 public class MenuSecondaire extends JFrame {
+    private Graphe grapheCourant;
     private JPanel panneauMenuSecondaire;
     private JButton menuPrincipalButton;
     private JButton rangsButton;
@@ -15,7 +16,8 @@ public class MenuSecondaire extends JFrame {
     private JPanel panneauDessinGraph;
     private JButton calculDistancesButton;
 
-    public MenuSecondaire(MenuPrincipal mainFrame, int x, int y, int width, int height) {
+    public MenuSecondaire(MenuPrincipal mainFrame, int x, int y, int width, int height, Graphe grapheCourant) {
+        this.grapheCourant = grapheCourant;
         // Options de base de la fenêtre
         setContentPane(panneauMenuSecondaire);
         setLocation(x, y);
@@ -35,8 +37,15 @@ public class MenuSecondaire extends JFrame {
                 mainFrame.setSize(width, height);
                 mainFrame.setLocation(x, y);
                 mainFrame.setVisible(true);
-
             }
         });
+    }
+
+    public void setGrapheCourant(Graphe grapheCourant) {
+        this.grapheCourant = grapheCourant;
+    }
+
+    public Graphe getGrapheCourant() {
+        return grapheCourant;
     }
 }
