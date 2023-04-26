@@ -10,6 +10,7 @@ public class Graphe {
     private Vector<Integer> fs;
     private Vector<Integer> aps;
     private Vector<Vector<Integer>> matAdj;
+    private int[][] p;
     private boolean estOriente;
 
     // CONSTRUCTEURS
@@ -250,6 +251,28 @@ public class Graphe {
         }
     }
 
+    public int[][] creerP() {
+        int n = this.getNombreSommets();
+        int[][] p = new int[n+1][n+1];
+        for (int i = 0; i < p.length; i++) {
+            for (int j = 0; j < p.length; j++) {
+                p[i][j] = -1;
+            }
+        }
+
+        int i, j;
+        for (Arete a : this.getAretes()) {
+            i = a.getDebut().getIndice();
+            j = a.getFin().getIndice();
+
+            p[i][j] = a.getPoids();
+
+        }
+
+        this.p = p;
+        return p;
+    }
+
     public int getNombreSommets() {
         return this.sommets.size();
     }
@@ -305,6 +328,10 @@ public class Graphe {
 
     public void setMatAdj(Vector<Vector<Integer>> matAdj) {
         this.matAdj = matAdj;
+    }
+
+    public int[][] getP() {
+        return p;
     }
 
     @Override

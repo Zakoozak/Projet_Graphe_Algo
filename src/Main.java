@@ -4,6 +4,7 @@ import java.util.Vector;
 
 public class Main {
     public static void main(String[] args) {
+        /*
         // Tests Fs Aps
         Vector<Integer> fs = new Vector<>(Arrays.asList(13, 2, 3, 4, 0, 2, 3, 4, 0, 5, 0, 0, 4, 0));
         Vector<Integer> aps = new Vector<>(Arrays.asList(5, 1, 5, 9, 11, 12));
@@ -21,9 +22,28 @@ public class Main {
         Graphe graphe2 = new Graphe(true, graphe1.getSommets(), graphe1.getAretes());
         System.out.println(graphe2);
 
+         */
+
+
+        Vector<Integer> fs = new Vector<>(Arrays.asList(14, 2, 5, 0, 1, 3, 0, 5, 0, 1, 3, 5, 0, 2, 0));
+        Vector<Integer> aps = new Vector<>(Arrays.asList(5, 1, 4, 7, 9, 13));
+        Vector<Sommet> sommets = new Vector<>(Arrays.asList(new Sommet(1), new Sommet(2), new Sommet(3), new Sommet(4), new Sommet(5)));
+        Vector<Arete> aretes = new Vector<>(Arrays.asList(
+                new Arete(sommets.elementAt(0), sommets.elementAt(4), 1),
+                new Arete(sommets.elementAt(0), sommets.elementAt(1), 0),
+                new Arete(sommets.elementAt(1), sommets.elementAt(0), 0),
+                new Arete(sommets.elementAt(1), sommets.elementAt(2), 1),
+                new Arete(sommets.elementAt(2), sommets.elementAt(4), 0),
+                new Arete(sommets.elementAt(3), sommets.elementAt(2), 3),
+                new Arete(sommets.elementAt(3), sommets.elementAt(4), 0),
+                new Arete(sommets.elementAt(3), sommets.elementAt(0), 1),
+                new Arete(sommets.elementAt(4), sommets.elementAt(1), 2))
+        );
+
+        Graphe gDijkstra = new Graphe(true, sommets, aretes);
 
         //Test Dijkstra
-        int [][]p = new int[10][10];
+        int [][]p = gDijkstra.creerP();
         int [] pr;
         int [] d;
         int [] t;
@@ -34,19 +54,61 @@ public class Main {
 
     }
 
-    private static void Dikjstra(Vector<Integer> fs, Vector<Integer> aps, int[][] p, int s) {
+    public static int[][] calculeDistance(Graphe g) { // avec Floyd-Warshall
+        int n = g.getNombreSommets();
+        int[][] distance = new int[n][n];
+
+        // Initialisation de la matrice de distance
+        for (int i = 0; i < n; i++) {
+            for (int j = 0; j < n; j++) {
+                if (i == j) {
+                    distance[i][j] = 0;
+                } else {
+                    distance[i][j] = Integer.MAX_VALUE;
+                }
+            }
+        }
+
+        // Remplissage de la matrice de distance avec les arêtes du graphe
+        Vector<Arete> aretes = g.getAretes();
+        for (Arete a : aretes) {
+            int u = a.getDebut().getIndice();
+            int v = a.getFin().getIndice();
+            int poids = a.getPoids();
+            distance[u][v] = poids;
+            if (!g.estOriente()) {
+                distance[v][u] = poids;
+            }
+        }
+
+        // Calcul des distances minimales avec l'algorithme de Floyd-Warshall
+        for (int k = 0; k < n; k++) {
+            for (int i = 0; i < n; i++) {
+                for (int j = 0; j < n; j++) {
+                    if (distance[i][k] != Integer.MAX_VALUE && distance[k][j] != Integer.MAX_VALUE
+                            && distance[i][k] + distance[k][j] < distance[i][j]) {
+                        distance[i][j] = distance[i][k] + distance[k][j];
+                    }
+                }
+            }
+        }
+
+        return distance;
+    }
+
+    private static void Dikjstra(Vector<Integer> fs, Vector<Integer> aps, int[][] poids, int s) {
         int MAXPOIDS = 100;
         int ind;
         int i, j = 0, k, v;
         int n = aps.elementAt(0);
         int m = fs.elementAt(0);
-        int [] pr = new int[n + 1];
-        int [] d = new int[n + 1];
+        int[] pr = new int[n + 1];
+        int[] d = new int[n + 1];
         int[] inS = new int[n + 1]; // sert a dire quels sont les sommets qui restent a traiter inS[i] = 0 ou 1
 
         // initialisation des tableaux d, pr et inS
         for (i = 1; i <= n; i++) {
-            d[i] = p[s][i];
+            d[i] = poids[s][i];
             inS[i] = 1;
             pr[i] = -1;
         }
@@ -77,7 +139,7 @@ public class Main {
 
             while (fs.elementAt(k) != 0) {
                 if (inS[fs.elementAt(k)] == 1) {
-                    v = d[j] + p[j][fs.elementAt(k)];
+                    v = d[j] + poids[j][fs.elementAt(k)];
                     if (v < d[fs.elementAt(k)]) {
                         d[fs.elementAt(k)] = v;
                         pr[fs.elementAt(k)] = j;
