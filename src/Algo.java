@@ -44,4 +44,60 @@ public class Algo {
 
         return distance;
     }
+
+
+    public void Dijkstra(int[] fs, int[] aps, int[][] p, int s, int[] d, int[] pr) {
+        int MAXPOIDS = 100;
+        int ind;
+        int i, j = 0, k, v;
+        int n = aps[0];
+        int m = fs[0];
+        pr = new int[n + 1];
+        d = new int[n + 1];
+        int[] inS = new int[n + 1]; // sert a dire quels sont les sommets qui restent a traiter inS[i] = 0 ou 1
+
+        // initialisation des tableaux d, pr et inS
+        for (i = 1; i <= n; i++) {
+            d[i] = p[s][i];
+            inS[i] = 1;
+            pr[i] = -1;
+        }
+
+        d[s] = 0;
+        pr[s] = 0;
+        inS[s] = 0; // on supprime le sommet s
+        ind = n - 1;
+
+        while (ind > 0) {
+            // calcul du minimum selon d des sommets de inS
+            m = MAXPOIDS;
+            for (i = 1; i <= n; i++){
+                if (inS[i] == 1) {
+                    if (d[i] < m) {
+                        m = d[i];
+                        j = i;
+                    }
+                }
+            }
+            if (m == MAXPOIDS) {
+                return;
+            }
+
+            inS[j] = 0;
+            ind--;
+            k = aps[j];
+
+            while (fs[k] != 0) {
+                if (inS[fs[k]] == 1) {
+                    v = d[j] + p[j][fs[k]];
+                    if (v < d[fs[k]]) {
+                        d[fs[k]] = v;
+                        pr[fs[k]] = j;
+                    }
+                }
+                k++;
+            }
+        }
+    }
+
 }
