@@ -2,7 +2,6 @@ import java.util.Vector;
 
 public class Algo {
 
-
     public int[][] calculeDistance(Graphe g) { // avec Floyd-Warshall
         int n = g.getNombreSommets();
         int[][] distance = new int[n][n];
@@ -46,14 +45,14 @@ public class Algo {
     }
 
 
-    public void Dijkstra(int[] fs, int[] aps, int[][] p, int s, int[] d, int[] pr) {
+    public void Dijkstra(Vector<Integer> fs, Vector<Integer> aps, int[][] p, int s) {
         int MAXPOIDS = 100;
         int ind;
         int i, j = 0, k, v;
-        int n = aps[0];
-        int m = fs[0];
-        pr = new int[n + 1];
-        d = new int[n + 1];
+        int n = aps.elementAt(0);
+        int m = fs.elementAt(0);
+        int [] pr = new int[n + 1];
+        int [] d = new int[n + 1];
         int[] inS = new int[n + 1]; // sert a dire quels sont les sommets qui restent a traiter inS[i] = 0 ou 1
 
         // initialisation des tableaux d, pr et inS
@@ -85,14 +84,14 @@ public class Algo {
 
             inS[j] = 0;
             ind--;
-            k = aps[j];
+            k = aps.elementAt(j);
 
-            while (fs[k] != 0) {
-                if (inS[fs[k]] == 1) {
-                    v = d[j] + p[j][fs[k]];
-                    if (v < d[fs[k]]) {
-                        d[fs[k]] = v;
-                        pr[fs[k]] = j;
+            while (fs.elementAt(k) != 0) {
+                if (inS[fs.elementAt(k)] == 1) {
+                    v = d[j] + p[j][fs.elementAt(k)];
+                    if (v < d[fs.elementAt(k)]) {
+                        d[fs.elementAt(k)] = v;
+                        pr[fs.elementAt(k)] = j;
                     }
                 }
                 k++;
