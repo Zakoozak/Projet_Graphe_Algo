@@ -65,7 +65,7 @@ public class Algo {
 
         d[s] = 0;
         pr[s] = 0;
-        inS[s] = 0; // on supprime le sommet s
+        inS[s] = 0; // on supprime le sommet s (ici 1) car on traite le sommet 1 en premier
         ind = n - 1;
 
         while (ind > 0) {
