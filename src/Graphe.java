@@ -21,7 +21,10 @@ public class Graphe {
         // Intégrité des données, on génère fs et aps mais également les listes des sommets et des arêtes du graphe
         matAdjToFsAps();
         matAdjToLists();
-        matAdjPourPrufer();
+        if (!estOriente) {
+            matAdjGrapheNonOriente();
+            matAdjPourPrufer();
+        }
     }
 
     // Via Listes
@@ -37,7 +40,10 @@ public class Graphe {
         // Intégrité des données
         listsToMatAdj();
         matAdjToFsAps();
-        matAdjPourPrufer();
+        if (!estOriente) {
+            matAdjGrapheNonOriente();
+            matAdjPourPrufer();
+        }
     }
 
     // Via Fs et Aps
@@ -51,7 +57,10 @@ public class Graphe {
         // Intégrité des données
         fsApsToMatAdj();
         matAdjToLists();
-        matAdjPourPrufer();
+        if (!estOriente) {
+            matAdjGrapheNonOriente();
+            matAdjPourPrufer();
+        }
     }
 
     public void setSommets(int indice, Sommet sommet) {
@@ -177,6 +186,7 @@ public class Graphe {
         }
     }
 
+    // Fonction qui rempli la première colonne (d'index 0) par les degrés (ddi) de chaque sommet
     void matAdjPourPrufer() {
         for (int i = 1; i < this.matAdj.size(); i++) {
             int somme = 0;
@@ -185,6 +195,16 @@ public class Graphe {
                     somme+=1;
             }
             this.matAdj.elementAt(i).setElementAt(somme, 0);
+        }
+    }
+
+    // Adapte la matrice s'il s'agit d'un graphe non orienté
+    void matAdjGrapheNonOriente() {
+        for (int i = 1; i < this.matAdj.size(); i++) {
+            for (int j = 1; j < this.matAdj.size(); j++) {
+                if (matAdj.elementAt(i).elementAt(j) == 1)
+                    matAdj.elementAt(j).setElementAt(1, i);
+            }
         }
     }
 

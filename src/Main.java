@@ -21,10 +21,9 @@ public class Main {
         // Tests Lists
         Graphe graphe2 = new Graphe(true, graphe1.getSommets(), graphe1.getAretes());
         System.out.println(graphe2);
-
          */
 
-        // Test Dijkstra
+        // Test Dijkstra ###############################
         Vector<Integer> fs = new Vector<>(Arrays.asList(14, 2, 5, 0, 1, 3, 0, 5, 0, 1, 3, 5, 0, 2, 0));
         Vector<Integer> aps = new Vector<>(Arrays.asList(5, 1, 4, 7, 9, 13));
         Vector<Sommet> sommets = new Vector<>(Arrays.asList(new Sommet(1), new Sommet(2), new Sommet(3), new Sommet(4), new Sommet(5)));
@@ -42,9 +41,15 @@ public class Main {
 
         Graphe gDijkstra = new Graphe(true, sommets, aretes);
         int [][]p = gDijkstra.creerP();
-        Dikjstra(fs, aps, p, 1);
+        // Dikjstra(fs, aps, p, 1);
 
-        // Test Prüfer
+        // Test Prüfer ###########################################
+        /* #######################################################
+        #                                                        #
+        #                   DONE                                 #
+        #                                                        #
+        ##########################################################
+         */
         Vector<Sommet> sommetsP = new Vector<>(Arrays.asList(new Sommet(1), new Sommet(2),
                 new Sommet(3), new Sommet(4), new Sommet(5), new Sommet(6),
                 new Sommet(7), new Sommet(8), new Sommet(9)));
@@ -61,7 +66,8 @@ public class Main {
         );
 
         Graphe graphePrufer = new Graphe(false, sommetsP, aretesP);
-        prufer(graphePrufer.getMatAdj());
+        // System.out.println(graphePrufer);
+        // prufer(graphePrufer.getMatAdj());
 
     }
 
@@ -129,19 +135,17 @@ public class Main {
         int k = 1;
         while (k <= nbSom - 2) {
             int i = 1;
-            System.out.println(a.elementAt(2).elementAt(0));
-            while ((a.elementAt(i).elementAt(0)) != 1) {
-                i++;
-            }
+            while ((a.elementAt(i).elementAt(0)) != 1) i++;
             int j = 1;
-            while ((a.get(i).get(j)) != 1) j++;
+            while ((a.elementAt(i).elementAt(j)) != 1) j++;
             prf[k++] = j;
             a.elementAt(i).setElementAt(0, j);
             a.elementAt(j).setElementAt(0, i);
             a.elementAt(i).setElementAt(0, 0);
-            // a.get(j).setElementAt(0, a.get(j).get(0) - 1);
+            a.get(j).setElementAt(a.get(j).get(0) - 1, 0);
         }
 
+        System.out.println(Arrays.toString(prf));
         return prf;
     }
 
