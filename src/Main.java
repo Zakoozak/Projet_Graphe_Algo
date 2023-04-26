@@ -24,7 +24,7 @@ public class Main {
 
          */
 
-
+        // Test Dijkstra
         Vector<Integer> fs = new Vector<>(Arrays.asList(14, 2, 5, 0, 1, 3, 0, 5, 0, 1, 3, 5, 0, 2, 0));
         Vector<Integer> aps = new Vector<>(Arrays.asList(5, 1, 4, 7, 9, 13));
         Vector<Sommet> sommets = new Vector<>(Arrays.asList(new Sommet(1), new Sommet(2), new Sommet(3), new Sommet(4), new Sommet(5)));
@@ -41,59 +41,28 @@ public class Main {
         );
 
         Graphe gDijkstra = new Graphe(true, sommets, aretes);
-
-        //Test Dijkstra
         int [][]p = gDijkstra.creerP();
-        int [] pr;
-        int [] d;
-        int [] t;
-        int s = 1; /*Sommet de depart*/
+        Dikjstra(fs, aps, p, 1);
 
-        Dikjstra(fs, aps, p, s);
+        // Test Prüfer
+        Vector<Sommet> sommetsP = new Vector<>(Arrays.asList(new Sommet(1), new Sommet(2),
+                new Sommet(3), new Sommet(4), new Sommet(5), new Sommet(6),
+                new Sommet(7), new Sommet(8), new Sommet(9)));
+        Vector<Arete> aretesP = new Vector<>(Arrays.asList(
+                new Arete(sommetsP.elementAt(0), sommetsP.elementAt(1)),
+                new Arete(sommetsP.elementAt(2), sommetsP.elementAt(1)),
+                new Arete(sommetsP.elementAt(3), sommetsP.elementAt(1)),
+                new Arete(sommetsP.elementAt(1), sommetsP.elementAt(4)),
+                new Arete(sommetsP.elementAt(4), sommetsP.elementAt(5)),
+                new Arete(sommetsP.elementAt(4), sommetsP.elementAt(6)),
+                new Arete(sommetsP.elementAt(7), sommetsP.elementAt(5)),
+                new Arete(sommetsP.elementAt(8), sommetsP.elementAt(6))
+                )
+        );
 
+        Graphe graphePrufer = new Graphe(false, sommetsP, aretesP);
+        prufer(graphePrufer.getMatAdj());
 
-    }
-
-    public static int[][] calculeDistance(Graphe g) { // avec Floyd-Warshall
-        int n = g.getNombreSommets();
-        int[][] distance = new int[n][n];
-
-        // Initialisation de la matrice de distance
-        for (int i = 0; i < n; i++) {
-            for (int j = 0; j < n; j++) {
-                if (i == j) {
-                    distance[i][j] = 0;
-                } else {
-                    distance[i][j] = Integer.MAX_VALUE;
-                }
-            }
-        }
-
-        // Remplissage de la matrice de distance avec les arêtes du graphe
-        Vector<Arete> aretes = g.getAretes();
-        for (Arete a : aretes) {
-            int u = a.getDebut().getIndice();
-            int v = a.getFin().getIndice();
-            int poids = a.getPoids();
-            distance[u][v] = poids;
-            if (!g.estOriente()) {
-                distance[v][u] = poids;
-            }
-        }
-
-        // Calcul des distances minimales avec l'algorithme de Floyd-Warshall
-        for (int k = 0; k < n; k++) {
-            for (int i = 0; i < n; i++) {
-                for (int j = 0; j < n; j++) {
-                    if (distance[i][k] != Integer.MAX_VALUE && distance[k][j] != Integer.MAX_VALUE
-                            && distance[i][k] + distance[k][j] < distance[i][j]) {
-                        distance[i][j] = distance[i][k] + distance[k][j];
-                    }
-                }
-            }
-        }
-
-        return distance;
     }
 
     private static void Dikjstra(Vector<Integer> fs, Vector<Integer> aps, int[][] poids, int s) {
@@ -102,12 +71,12 @@ public class Main {
         int i, j = 0, k, v;
         int n = aps.elementAt(0);
         int m = fs.elementAt(0);
-        int[] pr = new int[n + 1];
-        int[] d = new int[n + 1];
+        int[] pr = new int[n];
+        int[] d = new int[n];
         int[] inS = new int[n + 1]; // sert a dire quels sont les sommets qui restent a traiter inS[i] = 0 ou 1
 
         // initialisation des tableaux d, pr et inS
-        for (i = 1; i <= n; i++) {
+        for (i = 1; i < n; i++) {
             d[i] = poids[s][i];
             inS[i] = 1;
             pr[i] = -1;
@@ -150,6 +119,30 @@ public class Main {
         }
         System.out.println(Arrays.toString(pr));
         System.out.println(Arrays.toString(d));
+    }
+
+    public static int[] prufer(Vector<Vector<Integer>> a) {
+        System.out.println(a);
+        int nbSom = a.elementAt(0).elementAt(0);
+        int[] prf = new int[nbSom-1];
+        prf[0] = nbSom - 2;
+        int k = 1;
+        while (k <= nbSom - 2) {
+            int i = 1;
+            System.out.println(a.elementAt(2).elementAt(0));
+            while ((a.elementAt(i).elementAt(0)) != 1) {
+                i++;
+            }
+            int j = 1;
+            while ((a.get(i).get(j)) != 1) j++;
+            prf[k++] = j;
+            a.elementAt(i).setElementAt(0, j);
+            a.elementAt(j).setElementAt(0, i);
+            a.elementAt(i).setElementAt(0, 0);
+            // a.get(j).setElementAt(0, a.get(j).get(0) - 1);
+        }
+
+        return prf;
     }
 
 }

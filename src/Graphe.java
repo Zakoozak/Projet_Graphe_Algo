@@ -21,6 +21,7 @@ public class Graphe {
         // Intégrité des données, on génère fs et aps mais également les listes des sommets et des arêtes du graphe
         matAdjToFsAps();
         matAdjToLists();
+        matAdjPourPrufer();
     }
 
     // Via Listes
@@ -36,6 +37,7 @@ public class Graphe {
         // Intégrité des données
         listsToMatAdj();
         matAdjToFsAps();
+        matAdjPourPrufer();
     }
 
     // Via Fs et Aps
@@ -49,6 +51,7 @@ public class Graphe {
         // Intégrité des données
         fsApsToMatAdj();
         matAdjToLists();
+        matAdjPourPrufer();
     }
 
     public void setSommets(int indice, Sommet sommet) {
@@ -171,6 +174,17 @@ public class Graphe {
         // Remplissage du reste
         for (Arete a : aretes) {
             matAdj.elementAt(a.getDebut().getIndice()).setElementAt(1, a.getFin().getIndice());
+        }
+    }
+
+    void matAdjPourPrufer() {
+        for (int i = 1; i < this.matAdj.size(); i++) {
+            int somme = 0;
+            for (int j = 1; j < this.matAdj.size(); j++) {
+                if (matAdj.elementAt(i).elementAt(j) == 1)
+                    somme+=1;
+            }
+            this.matAdj.elementAt(i).setElementAt(somme, 0);
         }
     }
 
