@@ -1,49 +1,37 @@
+import java.util.Arrays;
 import java.util.Vector;
 
 public class Algo {
 
-    public int[][] calculeDistance(Graphe g) { // avec Floyd-Warshall
-        int n = g.getNombreSommets();
-        int[][] distance = new int[n][n];
 
-        // Initialisation de la matrice de distance
-        for (int i = 0; i < n; i++) {
-            for (int j = 0; j < n; j++) {
-                if (i == j) {
-                    distance[i][j] = 0;
-                } else {
-                    distance[i][j] = Integer.MAX_VALUE;
-                }
+
+    public static int[][] CalculeDistance(Graphe g) {
+        // Convertis la matrice d'adjacence en représentation FS-APS
+        g.matAdjToLists();
+
+        // Initialiser la matrice de distances avec les val de la matrice d'adjacence
+        int[][] dist = new int[g.getNombreSommets()+1][g.getNombreSommets()+1];
+        for (int i = 0; i < g.getNombreSommets(); i++) {
+            for (int j = 0; j < g.getNombreSommets(); j++) {
+                dist[i][j] = g.getMatAdj().get(i).get(j);
             }
         }
-
-        // Remplissage de la matrice de distance avec les arêtes du graphe
-        Vector<Arete> aretes = g.getAretes();
-        for (Arete a : aretes) {
-            int u = a.getDebut().getIndice();
-            int v = a.getFin().getIndice();
-            int poids = a.getPoids();
-            distance[u][v] = poids;
-            if (!g.estOriente()) {
-                distance[v][u] = poids;
-            }
-        }
-
-        // Calcul des distances minimales avec l'algorithme de Floyd-Warshall
-        for (int k = 0; k < n; k++) {
-            for (int i = 0; i < n; i++) {
-                for (int j = 0; j < n; j++) {
-                    if (distance[i][k] != Integer.MAX_VALUE && distance[k][j] != Integer.MAX_VALUE
-                            && distance[i][k] + distance[k][j] < distance[i][j]) {
-                        distance[i][j] = distance[i][k] + distance[k][j];
+        // Appliquer l'algorithme de Floyd-Warshall
+        for (int k = 0; k < g.getNombreSommets(); k++) {
+            for (int i = 0; i < g.getNombreSommets(); i++) {
+                for (int j = 0; j < g.getNombreSommets(); j++) {
+                    if (dist[i][k] + dist[k][j] < dist[i][j]) {
+                        dist[i][j] = dist[i][k] + dist[k][j];
                     }
                 }
             }
         }
-
-        return distance;
+        // Retourner la matrice de distances
+        //
+        System.out.println("MAtrice des distances");
+        System.out.println(Arrays.deepToString(dist));
+        return dist;
     }
-
 
     public void Dijkstra(Vector<Integer> fs, Vector<Integer> aps, int[][] p, int s) {
         int MAXPOIDS = 100;

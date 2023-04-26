@@ -1,5 +1,6 @@
 import javax.swing.*;
 import java.util.Arrays;
+import java.util.Calendar;
 import java.util.Vector;
 
 public class Main {
@@ -69,7 +70,71 @@ public class Main {
         // System.out.println(graphePrufer);
         // prufer(graphePrufer.getMatAdj());
 
+
+        ////////// TEST CALCULE DISTANCE
+
+        // graphe non-orienté avec 5 sommets et 7 arêtes
+        Vector<Sommet> sommetsCD = new Vector<>(Arrays.asList(new Sommet(1), new Sommet(2),
+                new Sommet(3), new Sommet(4), new Sommet(5)));
+
+        Vector<Arete> aretesCD = new Vector<>(Arrays.asList(
+            new Arete(sommetsCD.elementAt(0), sommetsCD.elementAt(1), 4),
+            new Arete(sommetsCD.elementAt(0), sommetsCD.elementAt(2), 1),
+            new Arete(sommetsCD.elementAt(1), sommetsCD.elementAt(2), 2),
+            new Arete(sommetsCD.elementAt(1), sommetsCD.elementAt(3), 5),
+            new Arete(sommetsCD.elementAt(2), sommetsCD.elementAt(3), 1),
+            new Arete(sommetsCD.elementAt(2), sommetsCD.elementAt(4), 3),
+            new Arete(sommetsCD.elementAt(3), sommetsCD.elementAt(4), 7)
+            )
+        );
+        Graphe g = new Graphe(false, sommetsCD,aretesCD);
+        // Calculer la matrice de distances
+        calculeDistance(g);
     }
+
+    public static Vector<Vector<Integer>> calculeDistance(Graphe graphe) {
+        Vector<Vector<Integer>> matDist = new Vector<Vector<Integer>>();
+        int n = graphe.getNombreSommets();
+
+        // Initialisation de la matrice de distances avec des 0
+        for (int i = 0; i < n; i++) {
+            Vector<Integer> ligne = new Vector<Integer>();
+            for (int j = 0; j < n; j++) {
+                ligne.add(0);
+            }
+            matDist.add(ligne);
+        }
+
+        // Remplissage de la matrice de distances avec les poids des arêtes
+        Vector<Vector<Integer>> matAdj = graphe.getMatAdj();
+        for (int i = 0; i < n; i++) {
+            for (int j = 0; j < n; j++) {
+                if (i == j) {
+                    matDist.get(i).set(j, 0);  // distance d'un sommet à lui-même
+                } else if (matAdj.get(i).get(j) != 0) {
+                    matDist.get(i).set(j, matAdj.get(i).get(j));  // poids de l'arête entre les deux sommets
+                } else {
+                    matDist.get(i).set(j, Integer.MAX_VALUE);  // distance infinie s'il n'y a pas d'arête entre les deux sommets
+                }
+            }
+        }
+
+        // Calcul des distances minimales via l'algorithme de Floyd-Warshall
+        for (int k = 0; k < n; k++) {
+            for (int i = 0; i < n; i++) {
+                for (int j = 0; j < n; j++) {
+                    int distIj = matDist.get(i).get(j);
+                    int distIk = matDist.get(i).get(k);
+                    int distKj = matDist.get(k).get(j);
+                    if (distIk != Integer.MAX_VALUE && distKj != Integer.MAX_VALUE && distIk + distKj < distIj) {
+                        matDist.get(i).set(j, distIk + distKj);
+                    }
+                }
+            }
+        }
+        System.out.println(matDist);
+        return matDist;
+    } // le premier tableau est faux, mais le reste est juste , pourquoi ?ceci est une bonne question
 
     private static void Dikjstra(Vector<Integer> fs, Vector<Integer> aps, int[][] poids, int s) {
         int MAXPOIDS = 100;
