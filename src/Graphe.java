@@ -176,22 +176,78 @@ public class Graphe {
     // AUTRES FONCTIONS
     //TODO
     public void suppSommet(int indice) {
+        sommets.remove(indice);        // Supprimer le sommet de la liste des sommets
 
+
+        // Supprimer les arrêttes qui sont reliées au sommet à supprimzr
+        for (int i = 0; i < aretes.size(); i++) {
+            Arete a = aretes.get(i);
+            if (a.getDebut().getIndice() == indice || a.getFin().getIndice() == indice) {
+                aretes.remove(i);
+                i--;
+            }
+        }
+
+        // Réindexe les sommets restants
+        for (int i = indice; i < sommets.size(); i++) {
+            Sommet s = sommets.get(i);
+            s.setIndice(s.getIndice() - 1);
+        }
     }
 
     //TODO
     public void addSommet(Sommet sommet) {
+        // Ajouter le sommet à la liste des sommets
+        sommets.add(sommet);
+
+        // Ajouter une ligne et une colonne dans la matrice d'adjacence  /// PEUT ETRE FAUX JSP
+        int n = sommets.size();
+        Vector<Integer> ligne = new Vector<Integer>(n);
+        for (int i = 0; i < n; i++) {
+            ligne.add(0);
+        }
+        matAdj.add(ligne);
+        for (int i = 0; i < n-1; i++) {
+            matAdj.get(i).add(0);
+        }
+
+        // Ajouter une entrée dans le vecteur fs
+        fs.add(0);
 
     }
 
     //TODO
     public void suppArrete(int indice) {
+        // Supprimer l'arête de la liste des arêtes
+        aretes.remove(indice);
+
+        // Mettre à jour la matrice d'adjacence  /// PEUT ETRE FAUX JSP
+        Arete a = aretes.get(indice);
+        int i = a.getDebut().getIndice();
+        int j = a.getFin().getIndice();
+        if (estOriente) {
+            matAdj.get(i).set(j, 0);
+        } else {
+            matAdj.get(i).set(j, 0);
+            matAdj.get(j).set(i, 0);
+        }
 
     }
 
     //TODO
     public void addArrete(Arete arrete) {
+        // Ajouter l'arête à la liste des arêtes
+        aretes.add(arrete);
 
+        // Mettre à jour la matrice d'adjacence /// PEUT ETRE FAUX JSP
+        int i = arrete.getDebut().getIndice();
+        int j = arrete.getFin().getIndice();
+        if (estOriente) {
+            matAdj.get(i).set(j, 1);
+        } else {
+            matAdj.get(i).set(j, 1);
+            matAdj.get(j).set(i, 1);
+        }
     }
 
     public int getNombreSommets() {

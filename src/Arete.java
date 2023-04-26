@@ -1,3 +1,5 @@
+import java.util.Objects;
+
 public class Arete {
     private Sommet debut;
     private Sommet fin;
@@ -40,5 +42,20 @@ public class Arete {
     @Override
     public String toString() {
         return "(" + debut + " - " + fin + ", " + poids + ")";
+    }
+
+    @Override
+    public boolean equals(Object o) {
+        if (this == o) return true;
+        if (o == null || getClass() != o.getClass()) return false;
+        Arete arete = (Arete) o;
+        return poids == arete.poids &&
+                debut.equals(arete.debut) &&
+                fin.equals(arete.fin);
+    }
+
+    @Override
+    public int hashCode() {
+        return Objects.hash(debut, fin, poids);
     }
 }

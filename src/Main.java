@@ -8,7 +8,7 @@ public class Main {
         Vector<Integer> fs = new Vector<>(Arrays.asList(13, 2, 3, 4, 0, 2, 3, 4, 0, 5, 0, 0, 4, 0));
         Vector<Integer> aps = new Vector<>(Arrays.asList(5, 1, 5, 9, 11, 12));
         Graphe graphe = new Graphe(fs, aps, true);
-        // System.out.println(graphe.detDdiFsAps());
+
         System.out.println(graphe + "\n##############");
 
         // Tests Mat Adj

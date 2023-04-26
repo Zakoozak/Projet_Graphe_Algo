@@ -1,3 +1,5 @@
+import java.util.Objects;
+
 public class Sommet {
     private String nom;
     private int indice;
@@ -34,6 +36,21 @@ public class Sommet {
 
     public void setRang(int rang) {
         this.rang = rang;
+    }
+
+    @Override
+    public boolean equals(Object o) {
+        if (this == o) return true;
+        if (o == null || getClass() != o.getClass()) return false;
+        Sommet sommet = (Sommet) o;
+        return indice == sommet.indice &&
+                rang == sommet.rang &&
+                nom.equals(sommet.nom);
+    }
+
+    @Override
+    public int hashCode() {
+        return Objects.hash(nom, indice, rang);
     }
 
     @Override
