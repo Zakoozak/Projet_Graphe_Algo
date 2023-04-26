@@ -3,16 +3,11 @@
   <grid id="27dc6" binding="panneauMenuSecondaire" layout-manager="GridLayoutManager" row-count="5" column-count="4" same-size-horizontally="false" same-size-vertically="false" hgap="-1" vgap="-1">
     <margin top="0" left="0" bottom="0" right="0"/>
     <constraints>
-      <xy x="20" y="20" width="599" height="400"/>
+      <xy x="20" y="20" width="617" height="400"/>
     </constraints>
     <properties/>
     <border type="none"/>
     <children>
-      <vspacer id="85785">
-        <constraints>
-          <grid row="4" column="2" row-span="1" col-span="1" vsize-policy="6" hsize-policy="1" anchor="0" fill="2" indent="0" use-parent-layout="false"/>
-        </constraints>
-      </vspacer>
       <hspacer id="e26cc">
         <constraints>
           <grid row="0" column="3" row-span="1" col-span="1" vsize-policy="1" hsize-policy="6" anchor="0" fill="1" indent="3" use-parent-layout="false"/>
@@ -24,7 +19,7 @@
         </constraints>
         <properties>
           <font size="20"/>
-          <text value="Représentation graphique du Graphe courant"/>
+          <text value="Aperçu graphique du Graphe courant"/>
         </properties>
       </component>
       <component id="16644" class="javax.swing.JButton" binding="menuPrincipalButton" default-binding="true">
@@ -119,20 +114,36 @@
           </component>
         </children>
       </grid>
-      <grid id="70b0c" binding="panneauDessinGraph" layout-manager="GridLayoutManager" row-count="1" column-count="1" same-size-horizontally="false" same-size-vertically="false" hgap="-1" vgap="-1">
-        <margin top="0" left="0" bottom="0" right="0"/>
-        <constraints>
-          <grid row="3" column="0" row-span="1" col-span="4" vsize-policy="3" hsize-policy="3" anchor="0" fill="3" indent="0" use-parent-layout="false"/>
-        </constraints>
-        <properties/>
-        <border type="none"/>
-        <children/>
-      </grid>
       <hspacer id="5b3d4">
         <constraints>
           <grid row="0" column="1" row-span="1" col-span="1" vsize-policy="1" hsize-policy="6" anchor="0" fill="1" indent="0" use-parent-layout="false"/>
         </constraints>
       </hspacer>
+      <grid id="a4cf6" binding="panneauDessinGraphe" layout-manager="GridLayoutManager" row-count="1" column-count="1" same-size-horizontally="false" same-size-vertically="false" hgap="-1" vgap="-1">
+        <margin top="0" left="0" bottom="0" right="0"/>
+        <constraints>
+          <grid row="4" column="0" row-span="1" col-span="4" vsize-policy="3" hsize-policy="3" anchor="0" fill="3" indent="0" use-parent-layout="false"/>
+        </constraints>
+        <properties/>
+        <border type="none"/>
+        <children>
+          <component id="80ee0" class="DessinGraphe" binding="dessinGraphe">
+            <constraints>
+              <grid row="0" column="0" row-span="1" col-span="1" vsize-policy="3" hsize-policy="3" anchor="0" fill="0" indent="0" use-parent-layout="false"/>
+            </constraints>
+            <properties/>
+          </component>
+        </children>
+      </grid>
+      <component id="13212" class="javax.swing.JButton" binding="generateNewButton">
+        <constraints>
+          <grid row="3" column="2" row-span="1" col-span="1" vsize-policy="0" hsize-policy="3" anchor="0" fill="0" indent="0" use-parent-layout="false"/>
+        </constraints>
+        <properties>
+          <background color="-11696215"/>
+          <text value="Générer un autre"/>
+        </properties>
+      </component>
     </children>
   </grid>
 </form>

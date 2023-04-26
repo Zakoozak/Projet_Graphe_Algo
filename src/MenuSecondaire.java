@@ -1,6 +1,8 @@
 import javax.swing.*;
+import java.awt.*;
 import java.awt.event.ActionEvent;
 import java.awt.event.ActionListener;
+import java.util.Random;
 
 public class MenuSecondaire extends JFrame {
     private Graphe grapheCourant;
@@ -13,18 +15,39 @@ public class MenuSecondaire extends JFrame {
     private JButton pruferButton;
     private JButton dijkstraButton;
     private JButton dantzigButton;
-    private JPanel panneauDessinGraph;
     private JButton calculDistancesButton;
+    private JPanel panneauDessinGraphe;
+    private JButton generateNewButton;
+    private DessinGraphe dessinGraphe;
 
     public MenuSecondaire(MenuPrincipal mainFrame, int x, int y, int width, int height, Graphe grapheCourant) {
         this.grapheCourant = grapheCourant;
+        dessinGraphe.setSommets(this.grapheCourant.getSommets());
+        dessinGraphe.setAretes(this.grapheCourant.getAretes());
+        dessinGraphe.setEstOriente(this.grapheCourant.estOriente());
+        dessinGraphe.repaint();
         // Options de base de la fenêtre
         setContentPane(panneauMenuSecondaire);
         setLocation(x, y);
         setSize(width, height);
         setTitle("Menu Secondaire");
         setDefaultCloseOperation(WindowConstants.EXIT_ON_CLOSE);
+        pack();
         setVisible(true);
+
+        generateNewButton.addActionListener(new ActionListener() {
+            @Override
+            public void actionPerformed(ActionEvent e) {
+                Random random = new Random();
+                // Générer de nouvelles positions de départ pour les sommets du graphe courant
+                for (Sommet s : MenuSecondaire.this.grapheCourant.getSommets()) {
+                    s.setPosition(new Point(random.nextInt((1600) + 1) + 100, random.nextInt((700) + 1) + 100));
+                }
+
+                dessinGraphe.setSommets(MenuSecondaire.this.grapheCourant.getSommets());
+                dessinGraphe.repaint(); // On redessine le graphe avec les nouvelles coordonnées des sommets
+            }
+        });
 
         menuPrincipalButton.addActionListener(new ActionListener() {
             @Override
@@ -37,6 +60,62 @@ public class MenuSecondaire extends JFrame {
                 mainFrame.setSize(width, height);
                 mainFrame.setLocation(x, y);
                 mainFrame.setVisible(true);
+            }
+        });
+
+        rangsButton.addActionListener(new ActionListener() {
+            @Override
+            public void actionPerformed(ActionEvent e) {
+
+            }
+        });
+
+        tarjanButton.addActionListener(new ActionListener() {
+            @Override
+            public void actionPerformed(ActionEvent e) {
+
+            }
+        });
+
+        ordonnancementButton.addActionListener(new ActionListener() {
+            @Override
+            public void actionPerformed(ActionEvent e) {
+
+            }
+        });
+
+        pruferButton.addActionListener(new ActionListener() {
+            @Override
+            public void actionPerformed(ActionEvent e) {
+
+            }
+        });
+
+        kruskalButton.addActionListener(new ActionListener() {
+            @Override
+            public void actionPerformed(ActionEvent e) {
+
+            }
+        });
+
+        dijkstraButton.addActionListener(new ActionListener() {
+            @Override
+            public void actionPerformed(ActionEvent e) {
+
+            }
+        });
+
+        dantzigButton.addActionListener(new ActionListener() {
+            @Override
+            public void actionPerformed(ActionEvent e) {
+
+            }
+        });
+
+        calculDistancesButton.addActionListener(new ActionListener() {
+            @Override
+            public void actionPerformed(ActionEvent e) {
+
             }
         });
     }

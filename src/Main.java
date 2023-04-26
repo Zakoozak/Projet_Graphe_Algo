@@ -21,17 +21,6 @@ public class Main {
         Graphe graphe2 = new Graphe(true, graphe1.getSommets(), graphe1.getAretes());
         System.out.println(graphe2);
 
-        /*
-        GraphSimulation graphSimulation = new GraphSimulation();
-        JFrame frame = new JFrame("Graph Simulation");
-        frame.getContentPane().add(graphSimulation);
-        frame.setDefaultCloseOperation(JFrame.EXIT_ON_CLOSE);
-        frame.pack();
-        frame.setLocationRelativeTo(null);
-        frame.setVisible(true);
-        graphSimulation.simulate();
-
-         */
     }
 
 }
