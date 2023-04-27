@@ -42,7 +42,9 @@ public class Main {
 
         Graphe gDijkstra = new Graphe(true, sommets, aretes);
         int [][]p = gDijkstra.creerP();
-        // Dikjstra(fs, aps, p, 1);
+        System.out.println(Arrays.deepToString(p));
+        //System.out.println(gDijkstra);
+        Dikjstra(fs, aps, p,1);
 
         // Test Prüfer ###########################################
         /* #######################################################
@@ -68,7 +70,7 @@ public class Main {
 
         Graphe graphePrufer = new Graphe(false, sommetsP, aretesP);
         // System.out.println(graphePrufer);
-        // prufer(graphePrufer.getMatAdj());
+        //prufer(graphePrufer.getMatAdj());
 
 
         ////////// TEST CALCULE DISTANCE
@@ -89,7 +91,7 @@ public class Main {
         );
         Graphe g = new Graphe(false, sommetsCD,aretesCD);
         // Calculer la matrice de distances
-        calculeDistance(g);
+        //calculeDistance(g);
     }
 
     public static Vector<Vector<Integer>> calculeDistance(Graphe graphe) {
@@ -136,32 +138,49 @@ public class Main {
         return matDist;
     } // le premier tableau est faux, mais le reste est juste , pourquoi ?ceci est une bonne question
 
-    private static void Dikjstra(Vector<Integer> fs, Vector<Integer> aps, int[][] poids, int s) {
-        int MAXPOIDS = 100;
-        int ind;
-        int i, j = 0, k, v;
-        int n = aps.elementAt(0);
-        int m = fs.elementAt(0);
-        int[] pr = new int[n];
-        int[] d = new int[n];
+
+
+    public static void Dikjstra(Vector<Integer> fs, Vector<Integer> aps, int[][] poids, int s) {
+        final int MAXPOIDS = 100;
+        int n = aps.get(0);
+        int m = fs.get(0);
+        int[] pr = new int[n + 1];
+        int[] d = new int[n + 1];
         int[] inS = new int[n + 1]; // sert a dire quels sont les sommets qui restent a traiter inS[i] = 0 ou 1
 
+        System.out.println(n); // 5
+        System.out.println(m); // 14
+        System.out.println(Arrays.toString(pr)); // full 0
+        System.out.println(Arrays.toString(d)); // full 0
+        System.out.println(Arrays.toString(inS)); // full 0
+
         // initialisation des tableaux d, pr et inS
-        for (i = 1; i < n; i++) {
-            d[i] = poids[s][i];
+        for (int i = 1; i <= n; i++) {
+            if(poids[s][i] == -1) d[i] = MAXPOIDS;
+            else d[i] = poids[s][i];
             inS[i] = 1;
             pr[i] = -1;
         }
 
+        System.out.println(Arrays.toString(pr));
+        System.out.println(Arrays.toString(d));
+        System.out.println(Arrays.toString(inS));
+
         d[s] = 0;
         pr[s] = 0;
         inS[s] = 0; // on supprime le sommet s (ici 1) car on traite le sommet 1 en premier
-        ind = n - 1;
+        int ind = n - 1;
+
+        System.out.println(ind);
+        System.out.println(Arrays.toString(pr));
+        System.out.println(Arrays.toString(d));
+        System.out.println(Arrays.toString(inS));
 
         while (ind > 0) {
             // calcul du minimum selon d des sommets de inS
             m = MAXPOIDS;
-            for (i = 1; i <= n; i++){
+            int j = 0;
+            for (int i = 1; i <= n; i++) {
                 if (inS[i] == 1) {
                     if (d[i] < m) {
                         m = d[i];
@@ -169,27 +188,26 @@ public class Main {
                     }
                 }
             }
-            if (m == MAXPOIDS) {
+            if (m == MAXPOIDS)
                 return;
-            }
 
             inS[j] = 0;
             ind--;
-            k = aps.elementAt(j);
+            int k = aps.get(j);
 
-            while (fs.elementAt(k) != 0) {
-                if (inS[fs.elementAt(k)] == 1) {
-                    v = d[j] + poids[j][fs.elementAt(k)];
-                    if (v < d[fs.elementAt(k)]) {
-                        d[fs.elementAt(k)] = v;
-                        pr[fs.elementAt(k)] = j;
+            while (fs.get(k) != 0) {
+                if (inS[fs.get(k)] == 1) {
+                    int v = d[j] + poids[j][fs.get(k)];
+                    if (v < d[fs.get(k)]) {
+                        d[fs.get(k)] = v;
+                        pr[fs.get(k)] = j;
                     }
                 }
                 k++;
             }
+            System.out.println(Arrays.toString(pr));
+            System.out.println(Arrays.toString(d));
         }
-        System.out.println(Arrays.toString(pr));
-        System.out.println(Arrays.toString(d));
     }
 
     public static int[] prufer(Vector<Vector<Integer>> a) {
