@@ -252,7 +252,7 @@ public class Graphe {
     }
 
     //TODO
-    public void suppArrete(int indice) {
+    public void suppArete(int indice) {
         // Supprimer l'arête de la liste des arêtes
         aretes.remove(indice);
 
@@ -270,7 +270,7 @@ public class Graphe {
     }
 
     //TODO
-    public void addArrete(Arete arrete) {
+    public void addArete(Arete arrete) {
         // Ajouter l'arête à la liste des arêtes
         aretes.add(arrete);
 
@@ -307,6 +307,37 @@ public class Graphe {
         return p;
     }
 
+    void trier() {
+        double p;
+        for (int i = 0; i < getNombreArretes() - 1; i++) {
+            for (int j = i + 1; j < getNombreArretes(); j++) {
+                if (getArete(j).getPoids() < getArete(i).getPoids() ||
+                getArete(j).getPoids() == getArete(i).getPoids() && getArete(j).getDebut().getIndice() < getArete(i).getFin().getIndice() ||
+                getArete(j).getPoids() == getArete(i).getPoids() && getArete(j).getFin().getIndice() < getArete(i).getFin().getIndice()) {
+                    p = getArete(j).getPoids();
+                    getArete(j).setPoids(getArete(i).getPoids());
+                    getArete(i).setPoids((int) p);
+                }
+            }
+        }
+        System.out.println(aretes);
+    }
+
+    public void trierAretes() {
+        Arete p;
+        for (int i = 0; i < aretes.size() - 1; i++)
+            for (int j = i + 1; j < aretes.size(); j++)
+                if ((aretes.get(j).getPoids() < aretes.get(i).getPoids()) ||
+                        (aretes.get(j).getPoids() == aretes.get(i).getPoids() && aretes.get(j).getDebut().getIndice() < aretes.get(i).getFin().getIndice()) ||
+                        (aretes.get(j).getPoids() == aretes.get(i).getPoids() && aretes.get(j).getFin().getIndice() < aretes.get(i).getFin().getIndice()))
+                {
+                    p = aretes.get(j);
+                    aretes.set(j,aretes.get(i));
+                    aretes.set(i,p);
+                }
+        System.out.println(aretes);
+    }
+
     public int getNombreSommets() {
         return this.sommets.size();
     }
@@ -323,13 +354,29 @@ public class Graphe {
         return this.aretes;
     }
 
-    public void setArretes(int indice, Arete arrete) {
-        if (indice < 0 || indice > aretes.size()) {
+    public Arete getArete(int index) {
+        return aretes.get(index);
+    }
+
+    public void setAreteKruskal(int index, Arete arete) {
+        aretes.setElementAt(arete, index);
+        System.out.println("");
+    }
+
+    public void setArete(int index, Arete arrete) {
+        if (index < 0 || index > aretes.size()) {
             System.out.println("arrete de te foutre de ma gueule stp");
-            return;
         } else {
-            aretes.set(indice, arrete);
+            aretes.setElementAt(arrete, index);
         }
+    }
+
+    public void setArete(Vector<Arete> aretes) {
+        this.aretes = aretes;
+    }
+
+    public void setSommets(Vector<Sommet> sommets) {
+        this.sommets = sommets;
     }
 
     public boolean estOriente() {
