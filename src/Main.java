@@ -42,8 +42,8 @@ public class Main {
 
         Graphe gDijkstra = new Graphe(true, sommets, aretes);
         int [][]p = gDijkstra.creerP();
-        System.out.println(Arrays.deepToString(p));
-        //System.out.println(gDijkstra);
+        //System.out.println(Arrays.deepToString(p));
+        System.out.println(gDijkstra);
         Dikjstra(fs, aps, p,1);
 
         // Test Prüfer ###########################################
@@ -148,62 +148,71 @@ public class Main {
         int[] d = new int[n + 1];
         int[] inS = new int[n + 1]; // sert a dire quels sont les sommets qui restent a traiter inS[i] = 0 ou 1
 
+        /*
         System.out.println(n); // 5
         System.out.println(m); // 14
         System.out.println(Arrays.toString(pr)); // full 0
         System.out.println(Arrays.toString(d)); // full 0
         System.out.println(Arrays.toString(inS)); // full 0
+         */
 
         // initialisation des tableaux d, pr et inS
         for (int i = 1; i <= n; i++) {
-            if(poids[s][i] == -1) d[i] = MAXPOIDS;
-            else d[i] = poids[s][i];
+            if(poids[s][i] == -1) {
+                d[i] = MAXPOIDS;
+                pr[i] = -1;
+            }
+            else {
+                d[i] = poids[s][i];
+                pr[i] = s;
+            }
             inS[i] = 1;
-            pr[i] = -1;
         }
 
+        /*
         System.out.println(Arrays.toString(pr));
         System.out.println(Arrays.toString(d));
         System.out.println(Arrays.toString(inS));
+         */
 
         d[s] = 0;
         pr[s] = 0;
         inS[s] = 0; // on supprime le sommet s (ici 1) car on traite le sommet 1 en premier
         int ind = n - 1;
 
-        System.out.println(ind);
-        System.out.println(Arrays.toString(pr));
-        System.out.println(Arrays.toString(d));
-        System.out.println(Arrays.toString(inS));
+        System.out.println(ind); // 4 sommets a traiter
+        System.out.println(Arrays.toString(pr)); // 0 -1 -1 -1 -1 --> censé etre 0 1 -1 -1 1
+        System.out.println(Arrays.toString(d)); // 0 0 100 100 1 --> Bon d
+        System.out.println(Arrays.toString(inS)); // 0 1 1 1 1 --> Bon car on a encore 2,3,4,5 a traiter
 
         while (ind > 0) {
             // calcul du minimum selon d des sommets de inS
             m = MAXPOIDS;
             int j = 0;
             for (int i = 1; i <= n; i++) {
-                if (inS[i] == 1) {
-                    if (d[i] < m) {
-                        m = d[i];
-                        j = i;
+                if (inS[i] == 1) { // Si le sommet i est a traiter
+                    if (d[i] < m) { // Si la distance n'est pas infini
+                        m = d[i]; // m = la distance du nouveau sommet a traiter
+                        j = i; // j = l'indice du sommet a traiter
                     }
                 }
             }
-            if (m == MAXPOIDS)
+            if (m == MAXPOIDS) // Si m est infini, ce qui sous entend que dans d, les sommets ne sont plus traitables
                 return;
 
-            inS[j] = 0;
-            ind--;
-            int k = aps.get(j);
+            inS[j] = 0; // on supprime le sommet qu'on vient de traiter
+            ind--; // on decremente le nombre de sommets a traiter
+            int k = aps.get(j); // k = aps du sommet a traiter --> la position qu'on va utiliser pour voir vers quels sommets il va
 
-            while (fs.get(k) != 0) {
-                if (inS[fs.get(k)] == 1) {
-                    int v = d[j] + poids[j][fs.get(k)];
-                    if (v < d[fs.get(k)]) {
-                        d[fs.get(k)] = v;
-                        pr[fs.get(k)] = j;
+            while (fs.get(k) != 0) { // tant que le sommet qu'on traite a des successeurs
+                if (inS[fs.get(k)] == 1) { // Si le successeur du sommet qu'on traite n'est pas deja traité
+                    int v = d[j] + poids[j][fs.get(k)]; // alors dans v on met la distance du sommet + le poids
+                    if (v < d[fs.get(k)]) { // et si v est inferieur a la distance qu'on avait deja enregistré
+                        d[fs.get(k)] = v; // alors on met la nouvelle distance
+                        pr[fs.get(k)] = j; // et le nouveau sommet de depart qui donne le chemin le plus court
                     }
                 }
-                k++;
+                k++; // puis on incremente k pour trouver la distance minimale avec les autres sommets pas traités
             }
             System.out.println(Arrays.toString(pr));
             System.out.println(Arrays.toString(d));
@@ -231,5 +240,4 @@ public class Main {
         System.out.println(Arrays.toString(prf));
         return prf;
     }
-
 }
