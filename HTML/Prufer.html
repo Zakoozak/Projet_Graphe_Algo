@@ -1,0 +1,22 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <title></title>
+    <style>
+        body {
+            font-family: "Arial", sans-serif;
+            font-size: 16px;
+        }
+    </style>
+</head>
+<body>
+<b> Problématique :</b> Représenter notre arbre d'une manière compacte (permet de stocker l'arbre avec un nombre minimal d'informations).
+<br><br>
+<b>Principe :</b> Éliminer progressivement les feuilles de l'arbre en construisant une séquence de nombres à partir des indices des voisins des feuilles éliminées.<br>
+À chaque étape, l'algorithme sélectionne la feuille ayant l'indice le plus petit, puis il ajoute l'indice de son unique voisin dans la séquence de Prüfer.<br>
+Il répète cette étape jusqu'à ce qu'il ne reste plus que deux sommets dans l'arbre.
+<br><br>
+<b>Conditions :</b> Le graphe doit être un arbre. (et non orienté)
+</body>
+</html>

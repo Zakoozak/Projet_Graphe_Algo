@@ -199,7 +199,7 @@ public class MenuPrincipal extends JFrame {
                     Vector<Arete> aretes = new Vector<>();
 
                     for (int i = 0; i < tabAretes.length; i++) {
-                        String[] arete = tabAretes[i].split("-");
+                        String[] arete = tabAretes[i].split("/");
                         aretes.add(new Arete(sommets.get(Integer.parseInt(arete[0])-1), sommets.get(Integer.parseInt(arete[2])-1), Integer.parseInt(arete[1])));
                     }
 

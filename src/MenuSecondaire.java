@@ -15,7 +15,7 @@ public class MenuSecondaire extends JFrame {
     private JButton pruferButton;
     private JButton dijkstraButton;
     private JButton dantzigButton;
-    private JButton calculDistancesButton;
+    private JButton floydWarshallButton;
     private JPanel panneauDessinGraphe;
     private JButton generateNewButton;
     private DessinGraphe dessinGraphe;
@@ -87,7 +87,9 @@ public class MenuSecondaire extends JFrame {
         pruferButton.addActionListener(new ActionListener() {
             @Override
             public void actionPerformed(ActionEvent e) {
-
+                Prufer dialog = new Prufer(MenuSecondaire.this.grapheCourant);
+                dialog.pack();
+                dialog.setVisible(true);
             }
         });
 
@@ -101,7 +103,9 @@ public class MenuSecondaire extends JFrame {
         dijkstraButton.addActionListener(new ActionListener() {
             @Override
             public void actionPerformed(ActionEvent e) {
-
+                Dijkstra dialog = new Dijkstra(MenuSecondaire.this.grapheCourant);
+                dialog.pack();
+                dialog.setVisible(true);
             }
         });
 
@@ -112,9 +116,12 @@ public class MenuSecondaire extends JFrame {
             }
         });
 
-        calculDistancesButton.addActionListener(new ActionListener() {
+        floydWarshallButton.addActionListener(new ActionListener() {
             @Override
             public void actionPerformed(ActionEvent e) {
+                FloydWarshall dialog = new FloydWarshall(MenuSecondaire.this.grapheCourant);
+                dialog.pack();
+                dialog.setVisible(true);
 
             }
         });

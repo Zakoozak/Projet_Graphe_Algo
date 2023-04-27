@@ -19,8 +19,8 @@ public class Graphe {
         this.matAdj = matAdj;
         this.estOriente = estOriente;
         // Intégrité des données, on génère fs et aps mais également les listes des sommets et des arêtes du graphe
-        matAdjToFsAps();
         matAdjToLists();
+        matAdjToFsAps();
         if (!estOriente) {
             matAdjGrapheNonOriente();
             matAdjPourPrufer();
@@ -112,7 +112,7 @@ public class Graphe {
         return ddi;
     }
 
-    void matAdjToFsAps() {
+    void matAdjToFsAps() { // Bug si graphe non orienté ?????????? Si on veut faire un graphe d'exemple pour prufer → Obligé de passer par une création par liste
         int n = matAdj.elementAt(0).elementAt(0); // Nombre de sommet
         int m = matAdj.elementAt(0).elementAt(1); // Nombre d'arc
 
@@ -134,6 +134,8 @@ public class Graphe {
             fs.setElementAt(0, k);
             k++;
         }
+
+
     }
 
     void matAdjToLists() {
@@ -502,4 +504,10 @@ public class Graphe {
         return absolutePath;
     }
 
+    public boolean possedeAreteNegative() {
+        for (Arete a : aretes) {
+            if (a.getPoids() < 0) return true;
+        }
+        return false;
+    }
 }
