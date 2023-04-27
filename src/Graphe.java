@@ -301,6 +301,9 @@ public class Graphe {
 
             p[i][j] = a.getPoids();
 
+            if (!estOriente)
+                p[j][i] = a.getPoids();
+
         }
 
         this.p = p;

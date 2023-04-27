@@ -73,7 +73,12 @@ public class Main {
 
 
         ////////// TEST CALCULE DISTANCE
-
+        /* #######################################################
+        #                                                        #
+        #                   DONE                                 #
+        #                                                        #
+        ##########################################################
+         */
         // graphe non-orienté avec 5 sommets et 7 arêtes
         Vector<Sommet> sommetsCD = new Vector<>(Arrays.asList(new Sommet(1), new Sommet(2),
                 new Sommet(3), new Sommet(4), new Sommet(5)));
@@ -89,8 +94,10 @@ public class Main {
             )
         );
         Graphe g = new Graphe(false, sommetsCD,aretesCD);
+        g.creerP();
+        // System.out.println(Arrays.deepToString(g.getP()));
         // Calculer la matrice de distances
-        //calculeDistance(g);
+        // calculeDistance(g);
 
         // Test Kruskal ####################################### CHALLENGE 100% IMPOSSIBLE
         Vector<Sommet> sommetsKruskal = new Vector<>(Arrays.asList(new Sommet(1), new Sommet(2),
@@ -150,8 +157,8 @@ public class Main {
     }
 
     public static Vector<Vector<Integer>> calculeDistance(Graphe graphe) {
+        int n = graphe.getP().length;
         Vector<Vector<Integer>> matDist = new Vector<Vector<Integer>>();
-        int n = graphe.getNombreSommets();
 
         // Initialisation de la matrice de distances avec des 0
         for (int i = 0; i < n; i++) {
@@ -163,33 +170,35 @@ public class Main {
         }
 
         // Remplissage de la matrice de distances avec les poids des arêtes
-        Vector<Vector<Integer>> matAdj = graphe.getMatAdj();
-        for (int i = 0; i < n; i++) {
-            for (int j = 0; j < n; j++) {
+        int[][] matPoids = graphe.getP();
+        for (int i = 1; i < n; i++) {
+            for (int j = 1; j < n; j++) {
                 if (i == j) {
-                    matDist.get(i).set(j, 0);  // distance d'un sommet à lui-même
-                } else if (matAdj.get(i).get(j) != 0) {
-                    matDist.get(i).set(j, matAdj.get(i).get(j));  // poids de l'arête entre les deux sommets
+                    matDist.get(i).set(j, 0);
+                } else if (matPoids[i][j] != -1) {
+                    matDist.get(i).setElementAt(matPoids[i][j], j);
                 } else {
-                    matDist.get(i).set(j, Integer.MAX_VALUE);  // distance infinie s'il n'y a pas d'arête entre les deux sommets
+                    matDist.get(i).set(j, Integer.MAX_VALUE);
                 }
             }
         }
 
         // Calcul des distances minimales via l'algorithme de Floyd-Warshall
-        for (int k = 0; k < n; k++) {
-            for (int i = 0; i < n; i++) {
-                for (int j = 0; j < n; j++) {
-                    int distIj = matDist.get(i).get(j);
-                    int distIk = matDist.get(i).get(k);
-                    int distKj = matDist.get(k).get(j);
-                    if (distIk != Integer.MAX_VALUE && distKj != Integer.MAX_VALUE && distIk + distKj < distIj) {
-                        matDist.get(i).set(j, distIk + distKj);
+        for (int k = 1; k < n; k++) {
+            for (int i = 1; i < n; i++) {
+                for (int j = 1; j < n; j++) {
+                    if (matDist.get(i).get(k) != Integer.MAX_VALUE
+                    && matDist.get(k).get(j) != Integer.MAX_VALUE
+                    && matDist.get(i).get(j) > matDist.get(i).get(k) + matDist.get(k).get(j)) {
+                        matDist.get(i).set(j, matDist.get(i).get(k) +  matDist.get(k).get(j));
                     }
                 }
             }
         }
-        System.out.println(matDist);
+
+        for (Vector<Integer> vec : matDist) {
+            System.out.println(vec);
+        }
         return matDist; // le premier tableau est faux, mais le reste est juste , pourquoi ?ceci est une bonne question
 
     }
