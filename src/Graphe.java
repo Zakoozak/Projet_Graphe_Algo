@@ -1,8 +1,7 @@
 import java.io.File;
 import java.io.FileWriter;
 import java.io.IOException;
-import java.util.Collections;
-import java.util.Vector;
+import java.util.*;
 
 public class Graphe {
     private Vector<Sommet> sommets;
@@ -498,5 +497,21 @@ public class Graphe {
 
         return absolutePath;
     }
+
+    public Vector<Sommet> getSuccesseurs(int sommet) {
+        Vector<Sommet> successeurs = new Vector<Sommet>();
+        int indiceSommet = sommets.indexOf(sommet);
+        if (indiceSommet == -1) {
+            return successeurs;
+        }
+        for (int i = 0; i < fs.size(); i++) {
+            if (fs.get(i) == indiceSommet-1) {
+                int indiceSuccesseur = aps.get(i-1);
+                successeurs.add(sommets.get(indiceSuccesseur));
+            }
+        }
+        return successeurs;
+    }
+
 
 }

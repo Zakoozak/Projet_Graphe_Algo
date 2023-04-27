@@ -1,6 +1,6 @@
-import java.util.ArrayList;
-import java.util.Arrays;
-import java.util.Vector;
+import javax.sound.sampled.TargetDataLine;
+import java.util.*;
+import java.util.concurrent.TimeoutException;
 
 public class Main {
     public static void main(String[] args) {
@@ -147,6 +147,24 @@ public class Main {
         int[] rang = new int[apsRang.get(0)+1];
         // rang(fsRang, apsRang, rang);
 
+        // test tarjan
+        Vector<Sommet> sommetsTrj = new Vector<>(Arrays.asList(
+                new Sommet(1), new Sommet(2), new Sommet(3), new Sommet(4), new Sommet(5)
+        ));
+
+        Vector<Arete> aretesTrj = new Vector<>(Arrays.asList(
+                new Arete(sommets.elementAt(0), sommets.elementAt(1), 1),
+                new Arete(sommets.elementAt(1), sommets.elementAt(2), 1),
+                new Arete(sommets.elementAt(3), sommets.elementAt(4), 1)
+        ));
+
+        Graphe gTrj = new Graphe(true, sommetsTrj, aretesTrj);
+
+        // Application de l'algorithme de Tarjan
+        Tarjan tarjan= new Tarjan(gTrj);
+        tarjan.fortconnexe();
+        tarjan.afficherTableaux();
+
     }
 
     public static Vector<Vector<Integer>> calculeDistance(Graphe graphe) {
@@ -191,7 +209,6 @@ public class Main {
         }
         System.out.println(matDist);
         return matDist; // le premier tableau est faux, mais le reste est juste , pourquoi ?ceci est une bonne question
-
     }
 
     public static void fusionnerProf(int i, int j, int[] prem, int[] pilch, int[] cfc, int[] NbElem) {
@@ -404,6 +421,7 @@ public class Main {
         System.out.println(Arrays.toString(pilch));
         System.out.println(Arrays.toString(rang));
     }
+
 
     static void empiler (int x, int[] pilch) // avec x dans {1, ... , n}
     {
