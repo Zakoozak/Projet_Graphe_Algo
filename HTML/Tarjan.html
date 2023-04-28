@@ -1,0 +1,22 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <title></title>
+    <style>
+        body {
+            font-family: "Arial", sans-serif;
+            font-size: 16px;
+        }
+    </style>
+</head>
+<body>
+<b> Problématique :</b> Déterminer si un graphe orienté contient des cycles et trouver ses composantes fortement connexes (CFC).
+<br><br>
+<b>Principe :</b> Parcourir le graphe en profondeur tout en maintenant une pile pour stocker les sommets visités. <br>
+Lorsqu'on atteint un sommet qui a déjà été visité et qui n'a pas encore été traité (c'est-à-dire qu'il n'a pas encore été affecté à une CFC),
+<br> on extrait les sommets de la pile jusqu'à ce qu'on atteigne ce sommet. Les sommets extraits forment une CFC.
+<br><br>
+<b>Conditions :</b> Le graphe doit être orienté.
+</body>
+</html>

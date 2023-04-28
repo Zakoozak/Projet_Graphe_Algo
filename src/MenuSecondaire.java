@@ -75,14 +75,16 @@ public class MenuSecondaire extends JFrame {
         tarjanButton.addActionListener(new ActionListener() {
             @Override
             public void actionPerformed(ActionEvent e) {
-
+                Tarjan dialog = new Tarjan(MenuSecondaire.this.grapheCourant);
+                dialog.pack();
+                dialog.setVisible(true);
             }
         });
 
         ordonnancementButton.addActionListener(new ActionListener() {
             @Override
             public void actionPerformed(ActionEvent e) {
-
+                JOptionPane.showMessageDialog(null, "Pas implémenté");
             }
         });
 
@@ -98,7 +100,7 @@ public class MenuSecondaire extends JFrame {
         kruskalButton.addActionListener(new ActionListener() {
             @Override
             public void actionPerformed(ActionEvent e) {
-
+                JOptionPane.showMessageDialog(null, "Pas implémenté");
             }
         });
 
@@ -114,7 +116,9 @@ public class MenuSecondaire extends JFrame {
         dantzigButton.addActionListener(new ActionListener() {
             @Override
             public void actionPerformed(ActionEvent e) {
-
+                Dantzig dialog = new Dantzig(MenuSecondaire.this.grapheCourant);
+                dialog.pack();
+                dialog.setVisible(true);
             }
         });
 

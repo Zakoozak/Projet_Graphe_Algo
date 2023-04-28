@@ -47,48 +47,7 @@ public class Main {
 
         Graphe graphePrufer = new Graphe(false, sommetsP, aretesP);
         System.out.println(graphePrufer);
-        Prufer(graphePrufer.getMatAdj());
-
-        // Test Kruskal ####################################### CHALLENGE 100% IMPOSSIBLE
-        Vector<Sommet> sommetsKruskal = new Vector<>(Arrays.asList(new Sommet(1), new Sommet(2),
-                new Sommet(3), new Sommet(4), new Sommet(5), new Sommet(6), new Sommet(7), new Sommet(8)));
-
-        Vector<Arete> aretesKruskal = new Vector<>(Arrays.asList(
-                new Arete(sommetsKruskal.elementAt(0), sommetsKruskal.elementAt(2), 1),
-                new Arete(sommetsKruskal.elementAt(0), sommetsKruskal.elementAt(4), 1),
-                new Arete(sommetsKruskal.elementAt(0), sommetsKruskal.elementAt(6), 1),
-                new Arete(sommetsKruskal.elementAt(1), sommetsKruskal.elementAt(3), 1),
-                new Arete(sommetsKruskal.elementAt(2), sommetsKruskal.elementAt(4), 1),
-                new Arete(sommetsKruskal.elementAt(3), sommetsKruskal.elementAt(5), 1),
-                new Arete(sommetsKruskal.elementAt(5), sommetsKruskal.elementAt(7), 1),
-                new Arete(sommetsKruskal.elementAt(6), sommetsKruskal.elementAt(7), 1),
-                new Arete(sommetsKruskal.elementAt(0), sommetsKruskal.elementAt(1), 2),
-                new Arete(sommetsKruskal.elementAt(2), sommetsKruskal.elementAt(3), 2),
-                new Arete(sommetsKruskal.elementAt(3), sommetsKruskal.elementAt(4), 2),
-                new Arete(sommetsKruskal.elementAt(5), sommetsKruskal.elementAt(6), 2),
-                new Arete(sommetsKruskal.elementAt(1), sommetsKruskal.elementAt(4), 3),
-                new Arete(sommetsKruskal.elementAt(3), sommetsKruskal.elementAt(7), 3),
-                new Arete(sommetsKruskal.elementAt(2), sommetsKruskal.elementAt(5), 5)
-        ));
-
-        Graphe gKruskal = new Graphe(false, sommetsKruskal, aretesKruskal);
-        Graphe gResKruskal = new Graphe(false, sommetsKruskal, aretesKruskal);
-        int[][] poidsKruskal = gKruskal.creerP();
-        int[] prem = new int[gKruskal.getNombreSommets()+1];
-        int[] pilch = new int[gKruskal.getNombreSommets()+1];
-        int[] cfc = new int[gKruskal.getNombreSommets()+1];
-        int[] NbElem = new int[gKruskal.getNombreSommets()+1];
-        for (int i = 1; i <= gKruskal.getNombreSommets(); i++) {
-            prem[i] = i;
-            pilch[i] = 0;
-            cfc[i] = i;
-            NbElem[i] = 1;
-        }
-        // System.out.println(gKruskal.getAretes());
-        // gKruskal.trierAretes();
-        // KruskalProf(gKruskal, gResKruskal, prem, pilch, cfc, NbElem);
-        //kruskal(gKruskal, gResKruskal);
-        // System.out.println(gResKruskal);
+        // Prufer(graphePrufer.getMatAdj());
 
         // Test Rang ####################################### CHALLENGE 100% POSSIBLE
         /* #######################################################
@@ -104,72 +63,5 @@ public class Main {
         int[] rang = new int[apsRang.get(0)+1];
         // rang(fsRang, apsRang, rang);
 
-    }
-
-    public static int[] Prufer(Vector<Vector<Integer>> a) {
-        System.out.println(a);
-        int nbSom = a.elementAt(0).elementAt(0);
-        int[] prf = new int[nbSom-1];
-        prf[0] = nbSom - 2;
-        int k = 1;
-        while (k <= nbSom - 2) {
-            int i = 1;
-            while ((a.elementAt(i).elementAt(0)) != 1) i++;
-            int j = 1;
-            while ((a.elementAt(i).elementAt(j)) != 1) j++;
-            prf[k++] = j;
-            a.elementAt(i).setElementAt(0, j);
-            a.elementAt(j).setElementAt(0, i);
-            a.elementAt(i).setElementAt(0, 0);
-            a.get(j).setElementAt(a.get(j).get(0) - 1, 0);
-        }
-
-        System.out.println(Arrays.toString(prf));
-        return prf;
-    }
-
-    public static void fusionnerProf(int i, int j, int[] prem, int[] pilch, int[] cfc, int[] NbElem) {
-        // i et j sont les numéros des composantes à fusionner
-        // en une seule composante qui portera le numéro le plus petit des deux
-        if (NbElem[i] < NbElem[j]) {
-            int aux = i;
-            i = j;
-            j = aux;
-        }
-        int s = prem[j];
-        cfc[s] = i;
-        while (pilch[s] != 0) {
-            s = pilch[s];
-            cfc[s] = i;
-        }
-        pilch[s] = prem[i];
-        prem[i] = prem[j];
-        NbElem[i] += NbElem[j];
-        System.out.println(Arrays.toString(cfc));
-    }
-
-    public static void KruskalProf(Graphe g, Graphe t, int[] prem, int[] pilch, int[] cfc, int[] NbElem) {
-        for (int i = 0; i < g.getNombreArretes(); i++) {
-            t.setArete(i, new Arete(g.getArete(i).getDebut(), g.getArete(i).getFin(), g.getArete(i).getPoids()));
-        }
-
-        int x; //respectivement le numéro de composante de la 1ère extrémité de l'arête courante
-        int y; //respectivement le numéro de composante de la 2ème extrémité de l'arête courante
-        int i = 0, j = 0; //respectivement indice dans g et t
-        while (j < g.getNombreSommets()-1) {
-            System.out.println(i);
-            Arete ar = g.getArete(i);
-            x = cfc[ar.getDebut().getIndice()];
-            y = cfc[ar.getFin().getIndice()];
-            System.out.println(x + " " + y);
-            if (x != y) {
-                // t.a[j++] = g.a[i];
-                t.setAreteKruskal(j++, ar);
-                fusionnerProf(x, y, prem, pilch, cfc, NbElem);
-            }
-            i++;
-        }
-        t.setSommets(new Vector<>(g.getNombreSommets()));
-        t.setArete(new Vector<>(g.getNombreSommets()-1));
     }
 }
