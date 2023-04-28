@@ -1,7 +1,8 @@
 import java.io.File;
 import java.io.FileWriter;
 import java.io.IOException;
-import java.util.*;
+import java.util.Collections;
+import java.util.Vector;
 
 public class Graphe {
     private Vector<Sommet> sommets;
@@ -18,8 +19,8 @@ public class Graphe {
         this.matAdj = matAdj;
         this.estOriente = estOriente;
         // Intégrité des données, on génère fs et aps mais également les listes des sommets et des arêtes du graphe
-        matAdjToFsAps();
         matAdjToLists();
+        matAdjToFsAps();
         if (!estOriente) {
             matAdjGrapheNonOriente();
             matAdjPourPrufer();
@@ -111,7 +112,7 @@ public class Graphe {
         return ddi;
     }
 
-    void matAdjToFsAps() {
+    void matAdjToFsAps() { // Bug si graphe non orienté ?????????? Si on veut faire un graphe d'exemple pour prufer → Obligé de passer par une création par liste
         int n = matAdj.elementAt(0).elementAt(0); // Nombre de sommet
         int m = matAdj.elementAt(0).elementAt(1); // Nombre d'arc
 
@@ -133,6 +134,8 @@ public class Graphe {
             fs.setElementAt(0, k);
             k++;
         }
+
+
     }
 
     void matAdjToLists() {
@@ -299,6 +302,9 @@ public class Graphe {
             j = a.getFin().getIndice();
 
             p[i][j] = a.getPoids();
+
+            if (!estOriente)
+                p[j][i] = a.getPoids();
 
         }
 
@@ -498,20 +504,10 @@ public class Graphe {
         return absolutePath;
     }
 
-    public Vector<Sommet> getSuccesseurs(int sommet) {
-        Vector<Sommet> successeurs = new Vector<Sommet>();
-        int indiceSommet = sommets.indexOf(sommet);
-        if (indiceSommet == -1) {
-            return successeurs;
+    public boolean possedeAreteNegative() {
+        for (Arete a : aretes) {
+            if (a.getPoids() < 0) return true;
         }
-        for (int i = 0; i < fs.size(); i++) {
-            if (fs.get(i) == indiceSommet-1) {
-                int indiceSuccesseur = aps.get(i-1);
-                successeurs.add(sommets.get(indiceSuccesseur));
-            }
-        }
-        return successeurs;
+        return false;
     }
-
-
 }
