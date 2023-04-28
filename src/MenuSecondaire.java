@@ -66,7 +66,9 @@ public class MenuSecondaire extends JFrame {
         rangsButton.addActionListener(new ActionListener() {
             @Override
             public void actionPerformed(ActionEvent e) {
-
+                Rangs dialog = new Rangs(MenuSecondaire.this.grapheCourant);
+                dialog.pack();
+                dialog.setVisible(true);
             }
         });
 

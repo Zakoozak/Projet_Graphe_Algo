@@ -157,4 +157,86 @@ public class Algo {
         System.out.println(Arrays.toString(prf));
         return prf;
     }
+
+    public static int[][] Rangs(Vector<Integer> fs, Vector<Integer> aps) {
+        int n = aps.elementAt(0);
+        int taillefs = fs.elementAt(0), s, h, t;
+        System.out.println(taillefs);
+        System.out.println(n);
+        int[] ddi = new int[n + 1];
+        int[] pilch = new int[n + 1];
+        int[] prem = new int[n + 1];
+        int[] rang = new int[n + 1];
+        int[][] res = new int[3][n + 1];
+
+        for (int i = 1; i <= n; i++) {
+            ddi[i] = 0;
+        }
+
+        // calcul de ddi
+        for (int i = 1; i <= taillefs; i++) {
+            s = fs.elementAt(i);
+            if (s > 0) {
+                ddi[s]++;
+            }
+        }
+        System.out.println("ddi : " + Arrays.toString(ddi));
+
+        // calcul du rang
+        pilch[0] = 0;
+        for (s = 1; s <= n; s++) {
+            rang[s] = -1; // n : nombre de sommets de G represente l'infini
+            if (ddi[s] == 0) {
+                empiler(s, pilch);
+            }
+        }
+
+        int k = -1;
+        s = pilch[0];
+        prem[0] = s;
+
+        while (pilch[0] > 0) {
+            k++;
+            pilch[0] = 0;
+
+            while (s > 0) {
+                rang[s] = k;
+                h = aps.elementAt(s);
+                t = fs.elementAt(h);
+
+                while (t > 0) {
+                    ddi[t]--;
+                    if (ddi[t] == 0) {
+                        empiler(t, pilch);
+                    }
+                    h++;
+                    t = fs.elementAt(h);
+                }
+
+                s = pilch[s];
+            }
+
+            s = pilch[0];
+            prem[k + 1] = s;
+        }
+
+        System.out.println("prem : " + Arrays.toString(prem));
+        System.out.println("pilch : " + Arrays.toString(pilch));
+        System.out.println("rang : " + Arrays.toString(rang));
+
+        System.arraycopy(prem, 0, res[0], 0, prem.length);
+
+        System.arraycopy(pilch, 0, res[1], 0, pilch.length);
+
+        System.arraycopy(rang, 0, res[2], 0, rang.length);
+
+        return res;
+    }
+
+    static void empiler (int x, int[] pilch) // avec x dans {1, ... , n}
+    {
+        pilch[x] = pilch[0];
+        pilch[0] = x;
+    }
+
 }
