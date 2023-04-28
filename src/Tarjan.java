@@ -101,16 +101,68 @@ public class Tarjan {
     public void afficherTableaux() {
 
         System.out.println("\nTableau pred :");
-        System.out.println(Arrays.toString(pred));
+        System.out.println(Arrays.toString(getPred()));
 
         System.out.println("\nTableau Prem :");
-        System.out.println(Arrays.toString(prem));
+        System.out.println(Arrays.toString(getPrem()));
 
 //        System.out.println("\n\n Tableau pilch");
 //        System.out.println(Arrays.toString(pilch));
 
         System.out.println("\n Tableau CFC : ");
-        System.out.println(Arrays.toString(cfc));
+        System.out.println(Arrays.toString(getCfc()));
+    }
+
+    public int[] getFs() {
+        return fs;
+    }
+
+    public int[] getAps() {
+        return aps;
+    }
+
+    public int[] getPrem() {
+        return prem;
+    }
+
+    public int[] getPilch() {
+        return pilch;
+    }
+
+    public int[] getCfc() {
+        return cfc;
+    }
+
+    public int[] getPred() {
+        return pred;
+    }
+
+    public int[] getNum() {
+        return num;
+    }
+
+    public int[] getRo() {
+        return ro;
+    }
+
+    public Deque<Integer> getTarj() {
+        return tarj;
+    }
+
+    public boolean[] getDansTarj() {
+        return dansTarj;
+    }
+
+    public int getP() {
+        return p;
+    }
+
+    public int getN() {
+        return n;
+    }
+
+    public int getCfcCount() {
+        return cfcCount;
     }
 
     public int[] convertirVectorEnTableau(Vector<Integer> vector) {
