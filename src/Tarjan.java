@@ -35,7 +35,7 @@ public class Tarjan {
             num[i] = 0;
             pred[i] = 0;
             ro[i] = 0;
-            entarj[i] = false;
+            entarj[i] = false;// t
         }
 
         pilch[0] = 0;
