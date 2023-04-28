@@ -312,6 +312,46 @@ public class Graphe {
         return p;
     }
 
+    public boolean contientCycle() {
+        // Initialisation des sommets
+        for (Sommet s : sommets) {
+            s.setEstVisite(false);
+        }
+
+        // Parcours en profondeur modifié pour détecter les cycles
+        for (Sommet s : sommets) {
+            if (!s.estVisite()) {
+                if (dfsCycle(s, null)) {
+                    return true;
+                }
+            }
+        }
+
+        return false;
+    }
+
+    private boolean dfsCycle(Sommet s, Sommet parent) {
+        // Visite du sommet
+        s.setEstVisite(true);
+
+        // Parcours des voisins
+        for (Arete a : aretes) {
+            if (a.getDebut().equals(s)) {
+                Sommet voisin = a.getFin();
+                if (!voisin.estVisite()) {
+                    if (dfsCycle(voisin, s)) {
+                        return true;
+                    }
+                } else if (!voisin.equals(parent)) {
+                    // Cycle détecté
+                    return true;
+                }
+            }
+        }
+
+        return false;
+    }
+
     void trier() {
         double p;
         for (int i = 0; i < getNombreArretes() - 1; i++) {

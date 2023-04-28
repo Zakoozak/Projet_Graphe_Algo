@@ -9,6 +9,7 @@ public class Sommet {
     private int rang;
     private Point position;
     private final Random random = new Random();
+    private boolean estVisite;
 
     public Sommet(String nom, int indice) {
         this.nom = nom;
@@ -51,6 +52,14 @@ public class Sommet {
 
     public void setPosition(Point position) {
         this.position = position;
+    }
+
+    public boolean estVisite() {
+        return estVisite;
+    }
+
+    public void setEstVisite(boolean estVisite) {
+        this.estVisite = estVisite;
     }
 
     @Override
