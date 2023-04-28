@@ -1,14 +1,24 @@
 import java.util.ArrayDeque;
+import java.util.Arrays;
 import java.util.Deque;
 import java.util.Vector;
 
 public class Tarjan {
 
 
-    private int[] fs, aps, prem, pilch, cfc, pred, num, ro;
-    private Deque<Integer> tarj = new ArrayDeque<Integer>();
-    private boolean[] entarj;
-    private int p, n, cfcCount;
+    private final int[] fs;
+    private final int[] aps;
+    private final int[] prem;
+    private final int[] pilch;
+    private final int[] cfc;
+    private final int[] pred;
+    private final int[] num;
+    private final int[] ro;
+    private final Deque<Integer> tarj = new ArrayDeque<Integer>();
+    private final boolean[] dansTarj;
+    private int p;
+    private final int n;
+    private int cfcCount;
 
     public Tarjan(Graphe g) {
         this.fs = convertirVectorEnTableau(g.getFs());
@@ -24,7 +34,7 @@ public class Tarjan {
         pilch = new int[n + 1];
         cfc = new int[n + 1];
         pred = new int[n + 1];
-        entarj = new boolean[n + 1];
+        dansTarj = new boolean[n + 1];
         num = new int[n + 1];
         ro = new int[n + 1];
     }
@@ -35,7 +45,7 @@ public class Tarjan {
             num[i] = 0;
             pred[i] = 0;
             ro[i] = 0;
-            entarj[i] = false;// t
+            dansTarj[i] = false;// t
         }
 
         pilch[0] = 0;
@@ -47,37 +57,36 @@ public class Tarjan {
     }
 
     // s = un sommet
-    public void traversee(int s) {
+    public void traversee(int sommet) {
         int t;
         p++;
-        num[s] = p; // numérote s et initialise num[s]
-        ro[s] = p; // numérote s et initialise ro[s]
-        tarj.push(s); // On ajoute le sommet qu'on traite à la pile tarj
-        entarj[s] = true;
+        ro[sommet] = p; // numérote s et initialise ro[sommet]
+        num[sommet] = p; // mm chose pour num[sommet]
+        tarj.push(sommet); // Ajoute le sommet courant dans pile Tarj
+        dansTarj[sommet] = true;
 
-        for (int k = aps[s]; (t = fs[k]) != 0; k++) {
+        for (int k = aps[sommet]; (t = fs[k]) != 0; k++) {
             // si t n'est pas encore numéroté
             if (num[t] == 0) {
-                pred[t] = s;
+                pred[t] = sommet;
                 traversee(t);
-                if (ro[t] < ro[s])
-                    ro[s] = ro[t];
+                if (ro[t] < ro[sommet])
+                    ro[sommet] = ro[t];
             } else {
-                if ((num[t] < ro[s]) && entarj[t])
-                    ro[s] = num[t];
+                if ((num[t] < ro[sommet]) && dansTarj[t])
+                    ro[sommet] = num[t];
             }
         }
 
-        if (ro[s] == num[s]) {
+        if (ro[sommet] == num[sommet]) {
             cfcCount++;
-
             int u;
             do {
                 u = tarj.pop();
-                entarj[u] = false;
+                dansTarj[u] = false;
                 empiler(u);
                 cfc[u] = cfcCount;
-            } while (u != s);
+            } while (u != sommet);
 
             prem[cfcCount] = pilch[0];
             pilch[0] = 0;
@@ -91,22 +100,17 @@ public class Tarjan {
 
     public void afficherTableaux() {
 
-        System.out.println("\n\n--------- PRED ---------");
-        for (int value : pred)
-            System.out.print(value + " ");
+        System.out.println("\nTableau pred :");
+        System.out.println(Arrays.toString(pred));
 
-        System.out.println("\n\n--------- PREM ---------");
-        for (int value : prem)
-            System.out.print(value + " ");
+        System.out.println("\nTableau Prem :");
+        System.out.println(Arrays.toString(prem));
 
-        System.out.println("\n\n--------- PILCH ---------");
-        for (int value : pilch)
-            System.out.print(value + " ");
+//        System.out.println("\n\n Tableau pilch");
+//        System.out.println(Arrays.toString(pilch));
 
-        System.out.println("\n\n--------- CFC ---------");
-        for (int value : cfc)
-            System.out.print(value + " ");
-
+        System.out.println("\n Tableau CFC : ");
+        System.out.println(Arrays.toString(cfc));
     }
 
     public int[] convertirVectorEnTableau(Vector<Integer> vector) {
