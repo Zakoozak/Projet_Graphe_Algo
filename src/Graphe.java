@@ -65,7 +65,7 @@ public class Graphe {
 
     public void setSommets(int indice, Sommet sommet) {
         if (indice < 0 || indice > sommets.size()) {
-            System.out.println("arrete de te foutre de ma gueule stp");
+            System.out.println("le sommet n'est pas valide");
         } else {
             sommets.set(indice, sommet);
         }
